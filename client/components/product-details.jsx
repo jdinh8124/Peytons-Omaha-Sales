@@ -6,19 +6,20 @@ export default class ProductDetails extends React.Component {
     this.state = {
       product: null
     };
-    this.changeBackToCat = this.changeBackToCat(this);
+    this.changeBackToCat = this.changeBackToCat.bind(this);
   }
 
-  ComponentDidMount() {
-    fetch(`/api/products/${this.props.view}`)
+  componentDidMount() {
+    fetch(`/api/products/${this.props.view.productId}`)
       .then(response => {
         return response.json();
       })
       .then(myJson => {
-        this.setState(previousState => ({
+        this.setState({
           product: myJson
-        }));
-      });
+        });
+      })
+      .catch(error => console.error(error.message));
   }
 
   changeBackToCat() {
@@ -26,19 +27,27 @@ export default class ProductDetails extends React.Component {
   }
 
   render() {
-    if (!this.state.product) {
+    if (this.state.product) {
       return (
-        <div className="card w-25 m-4" >
-          <p handleClick={this.changeBackToCat}>Back to Catalog</p>
-          <img src={this.state.product.image} className="card-img-left fit-image" alt="Image of Product" />
+        <div className="card m-5 col-11" >
+          <div className="pointer" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
+          <div className="row">
+            <div className="col-4">
+              <img src={this.state.product.image} className="ml-1 fit-single-image" alt="Image of Product" />
+            </div>
+            <div className="col-7">
+              <h5 className="card-title ">{this.state.product.name}</h5>
+              <h6 className="card-subtitle mb-2 text-muted ">${(this.state.product.price / 100).toFixed(2)}</h6>
+              <p className="card-text">{this.state.product.shortDescription}</p>
+            </div>
+          </div>
           <div className="card-body">
-            <h5 className="card-title">{this.state.product.name}</h5>
-            <h6 className="card-subtitle mb-2 text-muted">${this.state.product.price}</h6>
-            <p className="card-text">{this.state.product.shortDescription}</p>
-            <p className="card-text">this.state.product.longDescription</p>
+            <p className="card-text">{this.state.product.longDescription}</p>
           </div>
         </div>
       );
+    } else {
+      return null;
     }
   }
 }

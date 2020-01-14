@@ -1,7 +1,14 @@
 import React from 'react';
 export default function ProductListItem(props) {
+
+  function handleClick() {
+    props.onClick('details', {
+      productId: props.id
+    });
+  }
+
   return (
-    <div className="card w-25 m-4" >
+    <div className="card w-25 m-4 pointer" onClick={handleClick}>
       <img src={props.img} className="card-img-top fit-image" alt="Image of Product" />
       <div className="card-body">
         <h5 className="card-title">{props.name}</h5>
