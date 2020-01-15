@@ -2,11 +2,19 @@ import React from 'react';
 
 export default function CartSummaryItem(props) {
 
+  function pictureSize() {
+    if (props.img === '/images/shake-weight.jpg') {
+      return <img src={props.img} className="fit-single-shakeweight" alt="Image of Product" />;
+    } else {
+      return <img src={props.img} className=" fit-single-cart" alt="Image of Product" />;
+    }
+  }
+
   return (
-    <div className="card  col-7" >
+    <div className="card col-7 mb-5" >
       <div className="row">
         <div className="col-4">
-          <img src={props.img} className="ml-1 fit-single-image" alt="Image of Product" />
+          {pictureSize()}
         </div>
         <div className="col-7">
           <h5 className="card-title ">{props.name}</h5>

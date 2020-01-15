@@ -24,14 +24,14 @@ export default function CartSummary(props) {
 
   return (
     <>
-      <div className="">
-        <div className="pointer" onClick={changeBackToCat}> {'< Back to Catalog'}</div>
+      <div className="col-3 offset-2 mb-5">
+        <div className="pointer mb-3" onClick={changeBackToCat}> {'< Back to Catalog'}</div>
         <h2>My Cart</h2>
       </div>
-      <div className="d-flex flex-column align-items-center mb-5">
+      <div className="d-flex flex-column align-items-center ">
         {cartItems()}
       </div>
-      <h1>Item Total {calculateTotal()}</h1>
+      <h1 className="col-3 offset-2 mb-5">Item Total {calculateTotal()}</h1>
     </>
   );
 }

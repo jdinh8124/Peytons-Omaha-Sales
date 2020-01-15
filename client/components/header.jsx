@@ -23,8 +23,8 @@ export default function Header(props) {
         <div className="ml-1 d-inline text-white">{props.name}</div>
       </div>
       <div onClick={handleClick} className="pointer mr-4">
-        <div className="d-inline text-white float-right">{props.cart} {getItems()}</div>
-        <div className="d-inline text-white"><i className="fas fa-shopping-cart"></i></div>
+        <div className="d-inline text-white"><i className="fas fa-shopping-cart mr-2"></i></div>
+        <div className="d-inline text-white mr-3">{props.cart} {getItems()}</div>
       </div>
     </div>
   );
