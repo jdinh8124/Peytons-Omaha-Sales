@@ -148,22 +148,14 @@ app.post('/api/orders', (req, res, next) => {
   const sql = `
   insert into "orders" ("cartId","name","creditCard", "shippingAddress")
   values ($1, $2, $3, $4)
-  returning *
+  returning "createdAt","name","creditCard", "shippingAddress", "orderId"
   `;
   const params = [req.session.cartId, req.body.name, req.body.creditCard, req.body.shippingAddress];
 
   db.query(sql, params)
     .then(result => {
       delete req.session.cartId;
-      res.status(201).json(
-        {
-          orderId: result.rows[0].orderId,
-          createdAt: result.rows[0].createdAt,
-          name: result.rows[0].name,
-          creditCard: result.rows[0].creditCard,
-          shippingAddress: result.rows[0].shippingAddress
-        }
-      )
+      res.status(201).json(result.rows[0])
         .catch(err => next(err));
     });
 
