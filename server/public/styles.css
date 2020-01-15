@@ -11,3 +11,8 @@ height: 30vh;
 .pointer:hover {
     cursor:pointer;
 }
+
+.paddingTop{
+  padding-top: 20px;
+  font-size: 20px;
+}
