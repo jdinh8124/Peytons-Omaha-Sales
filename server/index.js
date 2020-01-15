@@ -137,6 +137,38 @@ app.post('/api/cart', (req, res, next) => {
   }
 });
 
+app.post('/api/orders', (req, res, next) => {
+  if (!req.session.cartId) {
+    throw new ClientError(`cannot ${req.method}/find a cart associated with your order`, 400);
+  }
+  if (!req.body.name || !req.body.creditCard || !req.body.shippingAddress) {
+    throw new ClientError('Cannot complete your order because information was missing!', 404);
+  }
+
+  const sql = `
+  insert into "orders" ("cartId","name","creditCard", "shippingAddress")
+  values ($1, $2, $3, $4)
+  returning *
+  `;
+  const params = [req.session.cartId, req.body.name, req.body.creditCard, req.body.shippingAddress];
+
+  db.query(sql, params)
+    .then(result => {
+      delete req.session.cartId;
+      res.status(201).json(
+        {
+          orderId: result.rows[0].orderId,
+          createdAt: result.rows[0].createdAt,
+          name: result.rows[0].name,
+          creditCard: result.rows[0].creditCard,
+          shippingAddress: result.rows[0].shippingAddress
+        }
+      )
+        .catch(err => next(err));
+    });
+
+});
+
 app.use('/api', (req, res, next) => {
   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
 });
