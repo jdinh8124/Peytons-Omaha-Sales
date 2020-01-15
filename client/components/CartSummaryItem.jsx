@@ -11,14 +11,14 @@ export default function CartSummaryItem(props) {
   }
 
   return (
-    <div className="card col-7 mb-5" >
+    <div className="card col-lg-7 mb-lg-5" >
       <div className="row">
-        <div className="col-4">
+        <div className="col-lg-4">
           {pictureSize()}
         </div>
-        <div className="col-7">
+        <div className="col-lg-7">
           <h5 className="card-title ">{props.name}</h5>
-          <h6 className="card-subtitle mb-2 text-muted ">${(props.price / 100).toFixed(2)}</h6>
+          <h6 className="card-subtitle mb-lg-2 text-muted ">${(props.price / 100).toFixed(2)}</h6>
           <p className="card-text">{props.shortDescription}</p>
         </div>
       </div>
