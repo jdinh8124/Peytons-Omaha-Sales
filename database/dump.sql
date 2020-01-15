@@ -17,13 +17,17 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 ALTER TABLE ONLY public.products DROP CONSTRAINT products_pkey;
+ALTER TABLE ONLY public.orders DROP CONSTRAINT orders_pkey;
 ALTER TABLE ONLY public.carts DROP CONSTRAINT carts_pkey;
 ALTER TABLE ONLY public."cartItems" DROP CONSTRAINT "cartItems_pkey";
 ALTER TABLE public.products ALTER COLUMN "productId" DROP DEFAULT;
+ALTER TABLE public.orders ALTER COLUMN "orderId" DROP DEFAULT;
 ALTER TABLE public.carts ALTER COLUMN "cartId" DROP DEFAULT;
 ALTER TABLE public."cartItems" ALTER COLUMN "cartItemId" DROP DEFAULT;
 DROP SEQUENCE public."products_productId_seq";
 DROP TABLE public.products;
+DROP SEQUENCE public."orders_orderId_seq";
+DROP TABLE public.orders;
 DROP SEQUENCE public."carts_cartId_seq";
 DROP TABLE public.carts;
 DROP SEQUENCE public."cartItems_cartItemId_seq";
@@ -125,6 +129,40 @@ ALTER SEQUENCE public."carts_cartId_seq" OWNED BY public.carts."cartId";
 
 
 --
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders (
+    "orderId" integer NOT NULL,
+    "cartId" integer NOT NULL,
+    name text NOT NULL,
+    "creditCard" text NOT NULL,
+    "shippingAddress" text NOT NULL,
+    "createdAt" timestamp(6) with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: orders_orderId_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public."orders_orderId_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: orders_orderId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public."orders_orderId_seq" OWNED BY public.orders."orderId";
+
+
+--
 -- Name: products; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -173,6 +211,13 @@ ALTER TABLE ONLY public.carts ALTER COLUMN "cartId" SET DEFAULT nextval('public.
 
 
 --
+-- Name: orders orderId; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders ALTER COLUMN "orderId" SET DEFAULT nextval('public."orders_orderId_seq"'::regclass);
+
+
+--
 -- Name: products productId; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -184,6 +229,50 @@ ALTER TABLE ONLY public.products ALTER COLUMN "productId" SET DEFAULT nextval('p
 --
 
 COPY public."cartItems" ("cartItemId", "cartId", "productId", price) FROM stdin;
+1	11	1	2999
+2	12	1	2999
+3	13	1	2999
+4	14	1	2999
+5	15	1	2999
+6	16	1	2999
+7	17	1	2999
+8	18	1	2999
+9	18	1	2999
+10	18	1	2999
+11	18	1	2999
+12	18	1	2999
+13	18	1	2999
+14	18	1	2999
+15	18	1	2999
+16	18	1	2999
+17	18	1	2999
+18	18	1	2999
+19	18	2	2595
+20	18	2	2595
+21	18	2	2595
+22	18	2	2595
+23	18	2	2595
+24	18	2	2595
+25	18	2	2595
+26	18	2	2595
+27	19	2	2595
+28	19	2	2595
+29	19	2	2595
+30	19	2	2595
+31	19	2	2595
+32	19	2	2595
+33	19	2	2595
+34	19	2	2595
+35	19	6	830
+36	19	5	9900
+37	19	3	2900
+38	19	5	9900
+39	20	1	2999
+40	20	3	2900
+41	20	4	999
+42	20	6	830
+43	20	5	9900
+44	20	6	830
 \.
 
 
@@ -192,6 +281,34 @@ COPY public."cartItems" ("cartItemId", "cartId", "productId", price) FROM stdin;
 --
 
 COPY public.carts ("cartId", "createdAt") FROM stdin;
+1	2020-01-14 15:35:40.594102-08
+2	2020-01-14 15:35:46.866482-08
+3	2020-01-14 15:36:11.47141-08
+4	2020-01-14 15:36:15.434935-08
+5	2020-01-14 15:36:27.142827-08
+6	2020-01-14 15:42:34.437409-08
+7	2020-01-14 15:44:50.04939-08
+8	2020-01-14 15:48:20.292594-08
+9	2020-01-14 15:53:53.780383-08
+10	2020-01-14 15:54:28.682473-08
+11	2020-01-14 15:56:52.595535-08
+12	2020-01-14 16:01:18.726207-08
+13	2020-01-14 16:02:42.803796-08
+14	2020-01-14 16:03:56.155723-08
+15	2020-01-14 16:04:13.775605-08
+16	2020-01-14 16:05:07.275982-08
+17	2020-01-14 16:06:06.261131-08
+18	2020-01-14 16:06:38.045918-08
+19	2020-01-14 18:21:29.699233-08
+20	2020-01-15 09:20:30.986998-08
+\.
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.orders ("orderId", "cartId", name, "creditCard", "shippingAddress", "createdAt") FROM stdin;
 \.
 
 
@@ -213,14 +330,21 @@ COPY public.products ("productId", name, price, image, "shortDescription", "long
 -- Name: cartItems_cartItemId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."cartItems_cartItemId_seq"', 1, false);
+SELECT pg_catalog.setval('public."cartItems_cartItemId_seq"', 44, true);
 
 
 --
 -- Name: carts_cartId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."carts_cartId_seq"', 1, false);
+SELECT pg_catalog.setval('public."carts_cartId_seq"', 20, true);
+
+
+--
+-- Name: orders_orderId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public."orders_orderId_seq"', 1, false);
 
 
 --
@@ -244,6 +368,14 @@ ALTER TABLE ONLY public."cartItems"
 
 ALTER TABLE ONLY public.carts
     ADD CONSTRAINT carts_pkey PRIMARY KEY ("cartId");
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY ("orderId");
 
 
 --
