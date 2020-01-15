@@ -45,7 +45,7 @@ app.get('/api/products/:productId', (req, res, next) => {
   db.query(sql, params)
     .then(result => {
       if (!result.rows[0]) {
-        next(new ClientError(`cannot ${req.method}/find the product number # ${req.params.productId} that you were searching for!`, 404));
+        throw new ClientError(`cannot ${req.method}/find the product number # ${req.params.productId} that you were searching for!`, 404);
       } else {
         res.status(200).json(result.rows[0]);
       }
@@ -79,7 +79,7 @@ select "c"."cartItemId",
 app.post('/api/cart', (req, res, next) => {
   const numberId = parseInt(req.body.productId);
   if (isNaN(numberId) || numberId < 0) {
-    next(new ClientError(`cannot ${req.body.productId} MUST be a positive Integer `, 400));
+    throw new ClientError(`cannot ${req.body.productId} MUST be a positive Integer `, 400);
   } else {
     const sql = `
   select "price"
@@ -91,7 +91,7 @@ app.post('/api/cart', (req, res, next) => {
     db.query(sql, params)
       .then(result => {
         if (!result.rows[0]) {
-          next(new ClientError(`cannot ${req.method}/find ${req.body.productId} that you were searching for!`, 400));
+          throw new ClientError(`cannot ${req.method}/find id number ${req.body.productId} that you were searching for!`, 400);
         }
         if (req.session.cartId) {
           return { cartId: req.session.cartId, price: result.rows[0].price };
@@ -128,8 +128,7 @@ app.post('/api/cart', (req, res, next) => {
           where "c"."cartItemId" = $1
         `;
         const params = [numberId];
-        db.query(sql, params)
-
+        return db.query(sql, params)
           .then(result => {
             res.status(201).json(result.rows[0]);
           });
