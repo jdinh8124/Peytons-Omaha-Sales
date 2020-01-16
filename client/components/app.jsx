@@ -5,6 +5,7 @@ import ProductDetails from './product-details';
 import CartSummary from './cartsummary';
 import CheckoutForm from './checkoutform';
 import IntroModal from './intromodal';
+import Confirmation from './confirmation';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -15,9 +16,11 @@ export default class App extends React.Component {
         params: {}
       },
       cart: [],
+      previousCart: [],
       showModal: true
     };
     this.setView = this.setView.bind(this);
+    this.setViewFromConfirm = this.setViewFromConfirm.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
@@ -88,6 +91,16 @@ export default class App extends React.Component {
     }));
   }
 
+  setViewFromConfirm(name, params) {
+    this.setState(previousState => ({
+      view: {
+        name: name,
+        params: params
+      },
+      previousCart: []
+    }));
+  }
+
   placeOrder(object) {
     fetch('/api/orders', {
       method: 'POST',
@@ -102,13 +115,15 @@ export default class App extends React.Component {
       .then(myJson => {
         this.setState(previousState => ({
           view: {
-            name: 'catalog',
+            name: 'confirmation',
             params: {}
           }
         }
         ));
+        const oldOrder = [...this.state.cart];
         this.setState(previousState => ({
-          cart: []
+          cart: [],
+          previousCart: oldOrder
         }));
       })
       .catch(reason => {
@@ -141,11 +156,14 @@ export default class App extends React.Component {
   bodyToRender() {
     let view;
     if (this.state.view.name === 'catalog') {
+      // view = <Confirmation setView={this.setViewFromConfirm} items={this.state.previousCart} />;
       view = <ProductList setView={this.setView} />;
     } else if (this.state.view.name === 'cart') {
       view = <CartSummary setView={this.setView} items={this.state.cart} delete={this.deleteItem}/>;
     } else if (this.state.view.name === 'checkout') {
       view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
+    } else if (this.state.view.name === 'confirmation') {
+      view = <Confirmation setView={this.setViewFromConfirm} items={this.state.previousCart} />;
     } else {
       view = <ProductDetails setView={this.setView} view={this.state.view.params} button={this.addToCart}/>;
     }

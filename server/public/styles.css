@@ -34,3 +34,14 @@ width: 17vw;
     left: 0;
     top: 0;
 }
+
+.fit-single-cart-confirm{
+object-fit: contain;
+height: 8vw
+}
+
+.fit-single-shakeweight-confirm{
+object-fit: contain;
+height: 6vw;
+width: 11vw;
+}
