@@ -87,7 +87,6 @@ app.post('/api/cart', (req, res, next) => {
   where "productId" = $1
   `;
     const params = [numberId];
-
     db.query(sql, params)
       .then(result => {
         if (!result.rows[0]) {
@@ -127,7 +126,7 @@ app.post('/api/cart', (req, res, next) => {
           join "products" as "p" using ("productId")
           where "c"."cartItemId" = $1
         `;
-        const params = [numberId];
+        const params = [lastThenResult.rows[0].cartItemId];
         return db.query(sql, params)
           .then(result => {
             res.status(201).json(result.rows[0]);
