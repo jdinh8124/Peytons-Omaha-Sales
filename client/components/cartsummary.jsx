@@ -22,16 +22,26 @@ export default function CartSummary(props) {
     props.setView('catalog', {});
   }
 
+  function changeToCheckout() {
+    if (props.items.length > 0) {
+      props.setView('checkout', {});
+
+    }
+  }
+
   return (
     <>
       <div className="col-3 offset-2 mb-5">
-        <div className="pointer mb-3" onClick={changeBackToCat}> {'< Back to Catalog'}</div>
+        <div className="pointer mb-3 " onClick={changeBackToCat}> {'< Back to Catalog'}</div>
         <h2>My Cart</h2>
       </div>
       <div className="d-flex flex-column align-items-center ">
         {cartItems()}
       </div>
-      <h1 className="col-3 offset-2 mb-5">Item Total {calculateTotal()}</h1>
+      <div className="row mb-5" >
+        <h1 className="col-3 offset-3 ">Item Total ${calculateTotal()}</h1>
+        <button type="button" onClick={changeToCheckout} className=" offset-2 col-1 btn btn-primary">Checkout Here</button>
+      </div>
     </>
   );
 }
