@@ -96,7 +96,7 @@ app.post('/api/cart', (req, res, next) => {
           return { cartId: req.session.cartId, price: result.rows[0].price };
         } else {
           const sql =
-`         insert into "carts" ("cartId", "createdAt")
+          `insert into "carts" ("cartId", "createdAt")
           values(default, default )
           returning "cartId"`;
           return db.query(sql)
@@ -158,6 +158,28 @@ app.post('/api/orders', (req, res, next) => {
         .catch(err => next(err));
     });
 
+});
+
+app.delete('/api/cart', (req, res, next) => {
+  const numberId = parseInt(req.body.cartItemId);
+  if (isNaN(numberId) || numberId < 0) {
+    throw new ClientError(`cannot ${numberId} MUST be a positive Integer `, 400);
+  } else {
+    const sql = `
+    Delete from "cartItems"
+    where "cartItemId" = $1
+    `;
+    const params = [numberId];
+    db.query(sql, params)
+      .then(result => {
+        if (result.rowCount !== 1) {
+          throw new ClientError('cannot find item to delete in cart', 400);
+        } else {
+          res.status(204).json();
+        }
+      })
+      .catch(err => next(err));
+  }
 });
 
 app.use('/api', (req, res, next) => {

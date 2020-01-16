@@ -5,7 +5,7 @@ export default function CartSummary(props) {
 
   function cartItems() {
     const listOfCartItems = props.items.map(item => {
-      return <CartSummaryItem name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
+      return <CartSummaryItem cartItemId={item.cartItemId} delete={props.delete}name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
     });
     return listOfCartItems;
   }

@@ -17,6 +17,7 @@ export default class App extends React.Component {
     this.setView = this.setView.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +37,9 @@ export default class App extends React.Component {
         }));
         this.setState(previousState => ({ view: { name: 'catalog', params: {} } }
         ));
+      })
+      .catch(reason => {
+        console.error(reason.message);
       });
   }
 
@@ -55,6 +59,9 @@ export default class App extends React.Component {
         this.setState(previousState => ({
           cart: newArray
         }));
+      })
+      .catch(reason => {
+        console.error(reason.message);
       });
   }
 
@@ -89,6 +96,31 @@ export default class App extends React.Component {
         this.setState(previousState => ({
           cart: []
         }));
+      })
+      .catch(reason => {
+        console.error(reason.message);
+      });
+  }
+
+  deleteItem(product) {
+    fetch('/api/cart', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ cartItemId: product })
+    })
+      .then(myJson => {
+        const newArray = [...this.state.cart];
+        const indexMatch = newArray.findIndex(items =>
+          items.cartItemId === product);
+        newArray.splice(indexMatch, 1);
+        this.setState(previousState => ({
+          cart: newArray
+        }));
+      })
+      .catch(reason => {
+        console.error(reason.message);
       });
   }
 
@@ -97,7 +129,7 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       view = <ProductList setView={this.setView} />;
     } else if (this.state.view.name === 'cart') {
-      view = <CartSummary setView={this.setView} items={this.state.cart}/>;
+      view = <CartSummary setView={this.setView} items={this.state.cart} delete={this.deleteItem}/>;
     } else if (this.state.view.name === 'checkout') {
       view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
     } else {
@@ -107,11 +139,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    const element = this.bodyToRender();
     return (
       <div>
         <Header name="Wicked Sales" cart={this.state.cart.length} onClick={this.setView}/>,
-        {element}
+        {this.bodyToRender()}
       </div>
     );
   }
