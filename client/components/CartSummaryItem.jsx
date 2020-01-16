@@ -10,6 +10,10 @@ export default function CartSummaryItem(props) {
     }
   }
 
+  function deleteItems() {
+    props.delete(props.cartItemId);
+  }
+
   return (
     <div className="card col-lg-7 mb-lg-5" >
       <div className="row">
@@ -20,6 +24,7 @@ export default function CartSummaryItem(props) {
           <h5 className="card-title ">{props.name}</h5>
           <h6 className="card-subtitle mb-lg-2 text-muted ">${(props.price / 100).toFixed(2)}</h6>
           <p className="card-text">{props.shortDescription}</p>
+          <button onClick={deleteItems} className="btn btn-outline-warning">Delete Item</button>
         </div>
       </div>
     </div>

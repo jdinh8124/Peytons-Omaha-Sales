@@ -4,6 +4,8 @@ import ProductList from './product-list';
 import ProductDetails from './product-details';
 import CartSummary from './cartsummary';
 import CheckoutForm from './checkoutform';
+import IntroModal from './intromodal';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,17 +14,30 @@ export default class App extends React.Component {
         name: 'catalog',
         params: {}
       },
-      cart: []
+      cart: [],
+      showModal: true
     };
     this.setView = this.setView.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.closeIntroModal = this.closeIntroModal.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/health-check');
     this.getCartItems();
+  }
 
+  showIntroModal() {
+    if (this.state.showModal) {
+      return <IntroModal onClick={this.closeIntroModal}/>;
+    }
+  }
+
+  closeIntroModal() {
+    this.setState(previousState => ({ showModal: false })
+    );
   }
 
   getCartItems() {
@@ -36,6 +51,9 @@ export default class App extends React.Component {
         }));
         this.setState(previousState => ({ view: { name: 'catalog', params: {} } }
         ));
+      })
+      .catch(reason => {
+        console.error(reason.message);
       });
   }
 
@@ -55,6 +73,9 @@ export default class App extends React.Component {
         this.setState(previousState => ({
           cart: newArray
         }));
+      })
+      .catch(reason => {
+        console.error(reason.message);
       });
   }
 
@@ -89,6 +110,31 @@ export default class App extends React.Component {
         this.setState(previousState => ({
           cart: []
         }));
+      })
+      .catch(reason => {
+        console.error(reason.message);
+      });
+  }
+
+  deleteItem(product) {
+    fetch('/api/cart', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ cartItemId: product })
+    })
+      .then(myJson => {
+        const newArray = [...this.state.cart];
+        const indexMatch = newArray.findIndex(items =>
+          items.cartItemId === product);
+        newArray.splice(indexMatch, 1);
+        this.setState(previousState => ({
+          cart: newArray
+        }));
+      })
+      .catch(reason => {
+        console.error(reason.message);
       });
   }
 
@@ -97,7 +143,7 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       view = <ProductList setView={this.setView} />;
     } else if (this.state.view.name === 'cart') {
-      view = <CartSummary setView={this.setView} items={this.state.cart}/>;
+      view = <CartSummary setView={this.setView} items={this.state.cart} delete={this.deleteItem}/>;
     } else if (this.state.view.name === 'checkout') {
       view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
     } else {
@@ -107,11 +153,11 @@ export default class App extends React.Component {
   }
 
   render() {
-    const element = this.bodyToRender();
     return (
       <div>
+        {this.showIntroModal()}
         <Header name="Wicked Sales" cart={this.state.cart.length} onClick={this.setView}/>,
-        {element}
+        {this.bodyToRender()}
       </div>
     );
   }
