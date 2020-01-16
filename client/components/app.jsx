@@ -4,6 +4,8 @@ import ProductList from './product-list';
 import ProductDetails from './product-details';
 import CartSummary from './cartsummary';
 import CheckoutForm from './checkoutform';
+import IntroModal from './intromodal';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -12,18 +14,30 @@ export default class App extends React.Component {
         name: 'catalog',
         params: {}
       },
-      cart: []
+      cart: [],
+      showModal: true
     };
     this.setView = this.setView.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
+    this.closeIntroModal = this.closeIntroModal.bind(this);
   }
 
   componentDidMount() {
     fetch('/api/health-check');
     this.getCartItems();
+  }
 
+  showIntroModal() {
+    if (this.state.showModal) {
+      return <IntroModal onClick={this.closeIntroModal}/>;
+    }
+  }
+
+  closeIntroModal() {
+    this.setState(previousState => ({ showModal: false })
+    );
   }
 
   getCartItems() {
@@ -141,6 +155,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+        {this.showIntroModal()}
         <Header name="Wicked Sales" cart={this.state.cart.length} onClick={this.setView}/>,
         {this.bodyToRender()}
       </div>
