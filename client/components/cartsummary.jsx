@@ -4,6 +4,24 @@ import CartSummaryItem from './CartSummaryItem';
 export default function CartSummary(props) {
 
   function cartItems() {
+
+    // const arrayOfItems = [];
+    // let included = false;
+    // let quantity = 0;
+    // for (let i = 0; i < props.items.length; i++) {
+    //   for (let k = 0; k < arrayOfItems.length; k++) {
+    //     if (props.items[i].productId === arrayOfItems[k].productId) {
+    //       included = true;
+    //       quantity++;
+    //     }
+    //   }
+    //   if (!included) {
+    //     arrayOfItems.push(props.items[i]);
+    //   }
+    //   included = false;
+    //   quantity = 0;
+    // }
+    // console.log(arrayOfItems);
     const listOfCartItems = props.items.map(item => {
       return <CartSummaryItem cartItemId={item.cartItemId} delete={props.delete}name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
     });
@@ -25,7 +43,6 @@ export default function CartSummary(props) {
   function changeToCheckout() {
     if (props.items.length > 0) {
       props.setView('checkout', {});
-
     }
   }
 
