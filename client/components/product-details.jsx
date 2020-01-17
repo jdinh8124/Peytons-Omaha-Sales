@@ -1,10 +1,12 @@
 import React from 'react';
+import AddCartModal from './addcartmodal';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: null
+      product: null,
+      modal: false
     };
     this.changeBackToCat = this.changeBackToCat.bind(this);
     this.handleButtonClick = this.handleButtonClick.bind(this);
@@ -23,34 +25,48 @@ export default class ProductDetails extends React.Component {
       .catch(error => console.error(error.message));
   }
 
+  itemBoughtModal() {
+    if (this.state.modal) {
+      return <AddCartModal name={this.state.product.name} setToCat={this.changeBackToCat} setView={this.props.setView}/>;
+
+    }
+  }
+
   changeBackToCat() {
     this.props.setView('catalog', {});
   }
 
   handleButtonClick() {
     this.props.button(this.state.product);
+    this.setState(previousState => ({
+      modal: true
+    }));
   }
 
   render() {
+    const modal = this.itemBoughtModal();
     if (this.state.product) {
       return (
-        <div className="card m-5 col-11" >
-          <div className="pointer" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
-          <div className="row">
-            <div className="col-4">
-              <img src={this.state.product.image} className="ml-1 fit-single-image" alt="Image of Product" />
+        <>
+          {modal}
+          <div className="card m-5 col-11" >
+            <div className="pointer" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
+            <div className="row">
+              <div className="col-4">
+                <img src={this.state.product.image} className="ml-1 fit-single-image" alt="Image of Product" />
+              </div>
+              <div className="col-7">
+                <h5 className="card-title ">{this.state.product.name}</h5>
+                <h6 className="card-subtitle mb-2 text-muted ">${(this.state.product.price / 100).toFixed(2)}</h6>
+                <p className="card-text">{this.state.product.shortDescription}</p>
+                <button className="btn btn-primary" onClick={this.handleButtonClick} >Add to Cart</button>
+              </div>
             </div>
-            <div className="col-7">
-              <h5 className="card-title ">{this.state.product.name}</h5>
-              <h6 className="card-subtitle mb-2 text-muted ">${(this.state.product.price / 100).toFixed(2)}</h6>
-              <p className="card-text">{this.state.product.shortDescription}</p>
-              <button className="btn btn-primary" onClick={this.handleButtonClick} >Add to Cart</button>
+            <div className="card-body">
+              <p className="card-text">{this.state.product.longDescription}</p>
             </div>
           </div>
-          <div className="card-body">
-            <p className="card-text">{this.state.product.longDescription}</p>
-          </div>
-        </div>
+        </>
       );
     } else {
       return null;
