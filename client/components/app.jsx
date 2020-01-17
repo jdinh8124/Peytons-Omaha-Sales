@@ -156,7 +156,6 @@ export default class App extends React.Component {
   bodyToRender() {
     let view;
     if (this.state.view.name === 'catalog') {
-      // view = <Confirmation setView={this.setViewFromConfirm} items={this.state.previousCart} />;
       view = <ProductList setView={this.setView} />;
     } else if (this.state.view.name === 'cart') {
       view = <CartSummary setView={this.setView} items={this.state.cart} delete={this.deleteItem}/>;
