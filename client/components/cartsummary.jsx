@@ -55,10 +55,10 @@ export default function CartSummary(props) {
       <div className="d-flex flex-column align-items-center ">
         {cartItems()}
       </div>
-      <div className="row mb-5" >
+      <footer className="row mb-5" >
         <h1 className="col-3 offset-3 ">Item Total ${calculateTotal()}</h1>
         <button type="button" onClick={changeToCheckout} className=" offset-2 col-1 btn btn-primary">Checkout Here</button>
-      </div>
+      </footer>
     </>
   );
 }
