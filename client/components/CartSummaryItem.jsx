@@ -11,11 +11,11 @@ export default function CartSummaryItem(props) {
   }
 
   function deleteItems() {
-    props.delete(props.cartItemId);
+    props.delete(props.ids[0]);
   }
 
-  function numberToPrint() {
-    return '0';
+  function addItems() {
+    props.add({ productId: props.productId });
   }
 
   return (
@@ -29,9 +29,9 @@ export default function CartSummaryItem(props) {
           <h6 className="card-subtitle mb-lg-2 text-muted ">${(props.price / 100).toFixed(2)}</h6>
           <p className="card-text">{props.shortDescription}</p>
           <div>
-            <button className="m-1"><i className="fas fa-minus-square"></i></button>
-            {numberToPrint()}
-            <button className="m-1"><i className="fas fa-plus-square"></i></button>
+            <button onClick={deleteItems} className="m-1"><i className="fas fa-minus-square"></i></button>
+            {props.quantity}
+            <button onClick={addItems}className="m-1"><i className="fas fa-plus-square"></i></button>
           </div>
           <button onClick={deleteItems} className="btn btn-outline-warning">Delete Item</button>
         </div>
