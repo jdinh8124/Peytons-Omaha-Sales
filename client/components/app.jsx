@@ -162,7 +162,7 @@ export default class App extends React.Component {
       .then(myJson => {
         const newArray = [...this.state.cart];
         const indexMatch = newArray.findIndex(items =>
-          items.cartItemId === product);
+          items.ids[0] === product);
         if (newArray[indexMatch].quantity === 1) {
           newArray.splice(indexMatch, 1);
           this.setState(previousState => ({

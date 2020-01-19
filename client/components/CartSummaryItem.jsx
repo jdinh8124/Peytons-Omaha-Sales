@@ -14,6 +14,12 @@ export default function CartSummaryItem(props) {
     props.delete(props.ids[0]);
   }
 
+  function deleteAllItems() {
+    props.ids.map(element => {
+      props.delete(element);
+    });
+  }
+
   function addItems() {
     props.add({ productId: props.productId });
   }
@@ -33,7 +39,7 @@ export default function CartSummaryItem(props) {
             {props.quantity}
             <button onClick={addItems}className="m-1"><i className="fas fa-plus-square"></i></button>
           </div>
-          <button onClick={deleteItems} className="btn btn-outline-warning">Delete Item</button>
+          <button onClick={deleteAllItems} className="btn btn-outline-warning">Delete Item</button>
         </div>
       </div>
     </div>
