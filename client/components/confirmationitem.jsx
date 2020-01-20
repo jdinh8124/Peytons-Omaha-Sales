@@ -17,7 +17,8 @@ export default function ConfirmationItem(props) {
         </div>
         <div className="col-lg-5">
           <h2 className="card-title ">{props.name}</h2>
-          <h3 className="card-subtitle mb-lg-2 text-muted ">${(props.price / 100).toFixed(2)}</h3>
+          <h3>Quantity: {props.quantity}</h3>
+          <h3 className="card-subtitle mb-lg-2 text-muted ">${((props.price * props.quantity) / 100).toFixed(2)}</h3>
         </div>
       </div>
     </div>

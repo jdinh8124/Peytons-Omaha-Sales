@@ -4,14 +4,14 @@ import ConfirmationItem from './confirmationitem';
 export default function Confirmation(props) {
   function getItems() {
     const items = props.items.map(item => {
-      return <ConfirmationItem key={item.cartItemId} name={item.name} price={item.price} img={item.image} />;
+      return <ConfirmationItem key={item.cartItemId} name={item.name} price={item.price} img={item.image} quantity={item.quantity}/>;
     });
     return items;
   }
   function getTotal() {
     let items = 0;
     props.items.map(item => {
-      items += parseInt(item.price);
+      items += parseInt(item.price * item.quantity);
     });
     return (items / 100).toFixed(2);
   }

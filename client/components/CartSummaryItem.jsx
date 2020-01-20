@@ -42,11 +42,6 @@ export default class CartSummaryItem extends React.Component {
       }));
     }
   }
-  // function deleteAllItems() {
-  //   this.props.ids.map(element => {
-  //     this.props.delete(element);
-  //   });
-  // }
 
   addItems() {
     this.props.add({ productId: this.props.productId });
@@ -70,7 +65,6 @@ export default class CartSummaryItem extends React.Component {
                 {this.props.quantity}
                 <button onClick={this.addItems}className="m-1"><i className="fas fa-plus-square"></i></button>
               </div>
-              {/* <button onClick={deleteAllItems} className="btn btn-outline-warning">Delete Item</button> */}
             </div>
           </div>
         </div>

@@ -185,7 +185,7 @@ export default class App extends React.Component {
   cartItemsCount() {
     let quantityGroup = 0;
     this.state.cart.map(items => {
-      quantityGroup = items.quantity
+      quantityGroup += items.quantity
       ;
     });
     return quantityGroup;
