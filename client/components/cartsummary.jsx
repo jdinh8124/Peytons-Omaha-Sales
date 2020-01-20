@@ -5,7 +5,7 @@ export default function CartSummary(props) {
 
   function cartItems() {
     const listOfCartItems = props.items.map(item => {
-      return <CartSummaryItem cartItemId={item.cartItemId} delete={props.delete}name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
+      return <CartSummaryItem productId={item.productId} ids={item.ids} add={props.add} quantity={item.quantity} cartItemId={item.cartItemId} delete={props.delete}name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
     });
     return listOfCartItems;
   }
@@ -13,7 +13,7 @@ export default function CartSummary(props) {
   function calculateTotal() {
     let priceToReturn = 0;
     props.items.map(item => {
-      priceToReturn += parseInt(item.price);
+      priceToReturn += parseInt(item.price * item.quantity);
     });
     return (priceToReturn / 100).toFixed(2);
   }
@@ -25,7 +25,6 @@ export default function CartSummary(props) {
   function changeToCheckout() {
     if (props.items.length > 0) {
       props.setView('checkout', {});
-
     }
   }
 
@@ -38,10 +37,10 @@ export default function CartSummary(props) {
       <div className="d-flex flex-column align-items-center ">
         {cartItems()}
       </div>
-      <div className="row mb-5" >
+      <footer className="row mb-5" >
         <h1 className="col-3 offset-3 ">Item Total ${calculateTotal()}</h1>
         <button type="button" onClick={changeToCheckout} className=" offset-2 col-1 btn btn-primary">Checkout Here</button>
-      </div>
+      </footer>
     </>
   );
 }

@@ -44,7 +44,7 @@ export default class CheckoutForm extends React.Component {
   priceTotal() {
     let total = 0;
     this.props.items.map(items => {
-      total += items.price;
+      total += parseInt(items.price * items.quantity);
     });
     return (total / 100).toFixed(2);
   }

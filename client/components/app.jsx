@@ -71,11 +71,31 @@ export default class App extends React.Component {
       .then(response => {
         return response.json();
       }).then(myJson => {
+        let found = false;
         const newArray = [...this.state.cart];
-        newArray.push(myJson);
-        this.setState(previousState => ({
-          cart: newArray
-        }));
+        newArray.map(item => {
+          if (item.productId === myJson.productId) {
+            found = true;
+          }
+        });
+        if (found) {
+          newArray.map(item => {
+            if (item.productId === myJson.productId) {
+              item.quantity += 1;
+              item.ids.push(myJson.cartItemId);
+            }
+          });
+          this.setState(previousState => ({
+            cart: newArray
+          }));
+        } else {
+          myJson.quantity = 1;
+          myJson.ids = [myJson.cartItemId];
+          newArray.push(myJson);
+          this.setState(previousState => ({
+            cart: newArray
+          }));
+        }
       })
       .catch(reason => {
         console.error(reason.message);
@@ -142,15 +162,33 @@ export default class App extends React.Component {
       .then(myJson => {
         const newArray = [...this.state.cart];
         const indexMatch = newArray.findIndex(items =>
-          items.cartItemId === product);
-        newArray.splice(indexMatch, 1);
-        this.setState(previousState => ({
-          cart: newArray
-        }));
+          items.ids[0] === product);
+        if (newArray[indexMatch].quantity === 1) {
+          newArray.splice(indexMatch, 1);
+          this.setState(previousState => ({
+            cart: newArray
+          }));
+        } else {
+          newArray[indexMatch].quantity -= 1;
+          newArray[indexMatch].ids.shift();
+          newArray[indexMatch].cartItemId = newArray[indexMatch].ids[0];
+          this.setState(previousState => ({
+            cart: newArray
+          }));
+        }
       })
       .catch(reason => {
         console.error(reason.message);
       });
+  }
+
+  cartItemsCount() {
+    let quantityGroup = 0;
+    this.state.cart.map(items => {
+      quantityGroup += items.quantity
+      ;
+    });
+    return quantityGroup;
   }
 
   bodyToRender() {
@@ -158,7 +196,7 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       view = <ProductList setView={this.setView} />;
     } else if (this.state.view.name === 'cart') {
-      view = <CartSummary setView={this.setView} items={this.state.cart} delete={this.deleteItem}/>;
+      view = <CartSummary setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem}/>;
     } else if (this.state.view.name === 'checkout') {
       view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
     } else if (this.state.view.name === 'confirmation') {
@@ -173,7 +211,7 @@ export default class App extends React.Component {
     return (
       <div>
         {this.showIntroModal()}
-        <Header name="Wicked Sales" cart={this.state.cart.length} onClick={this.setView}/>,
+        <Header name="Wicked Sales" cart={this.cartItemsCount()} onClick={this.setView}/>,
         {this.bodyToRender()}
       </div>
     );

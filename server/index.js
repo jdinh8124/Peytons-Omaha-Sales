@@ -71,7 +71,37 @@ select "c"."cartItemId",
   const params = [req.session.cartId];
   db.query(sql, params)
     .then(result => {
-      res.status(200).json(result.rows);
+      // console.log(result.rows);
+      const resultArr = result.rows;
+      const arrayOfItems = [];
+      let arrayOfIds = [];
+      let included = false;
+      let quantity = 0;
+      for (let i = 0; i < resultArr.length; i++) {
+        for (let w = 0; w < resultArr.length; w++) {
+          if (resultArr[i].productId === resultArr[w].productId) {
+            quantity += 1;
+            arrayOfIds.push(resultArr[w].cartItemId);
+          }
+        }
+        for (let k = 0; k < arrayOfItems.length; k++) {
+          if (resultArr[i].productId === arrayOfItems[k].productId) {
+            included = true;
+          }
+
+        }
+        if (!included) {
+          arrayOfItems.push(resultArr[i]);
+          const numberInArray = arrayOfItems.findIndex(item => item === resultArr[i]);
+          arrayOfItems[numberInArray].quantity = quantity;
+          arrayOfItems[numberInArray].ids = arrayOfIds;
+
+        }
+        included = false;
+        quantity = 0;
+        arrayOfIds = [];
+      }
+      res.status(200).json(arrayOfItems);
     })
     .catch(err => next(err));
 });
