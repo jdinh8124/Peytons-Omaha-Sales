@@ -13,7 +13,7 @@ export default function CartSummary(props) {
   function calculateTotal() {
     let priceToReturn = 0;
     props.items.map(item => {
-      priceToReturn += parseInt(item.price);
+      priceToReturn += parseInt(item.price * item.quantity);
     });
     return (priceToReturn / 100).toFixed(2);
   }
