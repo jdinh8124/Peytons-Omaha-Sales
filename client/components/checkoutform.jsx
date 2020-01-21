@@ -5,26 +5,87 @@ export default class CheckoutForm extends React.Component {
     super(props);
     this.state = {
       name: '',
+      email: '',
       creditCard: '',
-      shippingAddress: ''
+      phone: '',
+      shippingAddress: '',
+      shippingAddressTwo: '',
+      city: '',
+      creditCardName: '',
+      state: '',
+      month: '',
+      year: '',
+      cvc: ''
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleShippingChange = this.handleShippingChange.bind(this);
-    this.handleCreditCardChange = this.handleCreditCardChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePrimaryShippingChange = this.handlePrimaryShippingChange.bind(this);
+    this.handlePhoneChange = this.handlePhoneChange.bind(this);
+    this.handleSecondaryShippingChange = this.handleSecondaryShippingChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleCreditChange = this.handleCreditChange.bind(this);
+    this.handleNameOnCardChange = this.handleNameOnCardChange.bind(this);
+    this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.handleYearChange = this.handleYearChange.bind(this);
+    this.handleCvcChange = this.handleCvcChange.bind(this);
   }
 
   handleNameChange(event) {
     this.setState({ name: event.target.value });
   }
 
-  handleShippingChange(event) {
+  handleEmailChange(event) {
+    this.setState({ email: event.target.value });
+
+  }
+
+  handlePhoneChange(event) {
+    this.setState({ phone: event.target.value });
+  }
+
+  handlePrimaryShippingChange(event) {
+    this.setState({ shippingAddress: event.target.value });
+  }
+
+  handleSecondaryShippingChange(event) {
+    this.setState({ shippingAddressTwo: event.target.value });
+  }
+
+  handleCityChange(event) {
+    this.setState({ city: event.target.value });
+  }
+
+  handleStateChange(event) {
+    this.setState({ state: event.target.value });
+  }
+
+  handleNameOnCardChange(event) {
+    this.setState({ creditCardName: event.target.value });
+
+  }
+
+  handleCreditChange(event) {
     this.setState({ creditCard: event.target.value });
   }
 
-  handleCreditCardChange(event) {
-    this.setState({ shippingAddress: event.target.value });
+  handleMonthChange(event) {
+    this.setState({ month: event.target.value });
+  }
+
+  handleYearChange(event) {
+    this.setState({ year: event.target.value });
+  }
+
+  handleCvcChange(event) {
+  //   if (typeof (parseInt(event.target.value)) === 'number') {
+  // if (event.target.value.length >= 3) {
+  //   return
+  //   }else{
+  //   this.setState({ cvc: event.target.value });
+  //   }
   }
 
   onClickPlaceOrder() {
@@ -67,27 +128,27 @@ export default class CheckoutForm extends React.Component {
           </div>
           <div className="form-group">
             <label >Email</label>
-            <input onChange={this.handleCreditCardChange} className="form-control" placeholder="Email" />
+            <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" />
           </div>
           <div className="form-group">
             <label>Phone Number</label>
-            <input type="tele" onChange={this.handleCreditCardChange} className="form-control" placeholder="123456" />
+            <input type="tele" onChange={this.handlePhoneChange} className="form-control" placeholder="123456" />
           </div>
           <div className="form-group">
             <label>Address</label>
-            <input onChange={this.handleCreditCardChange} className="form-control" placeholder="9200 Irvine St." />
+            <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." />
           </div>
           <div className="form-group">
             <label>Address 2</label>
-            <input onChange={this.handleCreditCardChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" />
+            <input onChange={this.handleSecondaryShippingChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" />
           </div>
           <div className="form-group">
             <label>City</label>
-            <input onChange={this.handleCreditCardChange} className="form-control" placeholder="City" />
+            <input onChange={this.handleCityChange} className="form-control" placeholder="City" />
           </div>
           <div className="form-group">
             <label htmlFor="state">State</label>
-            <select className="form-control" name="state">
+            <select onChange={this.handleStateChange} className="form-control" name="state">
               <option>Choose State...</option>
               <option value="AL">Alabama</option>
               <option value="AK">Alaska</option>
@@ -146,7 +207,7 @@ export default class CheckoutForm extends React.Component {
           <h3>Payment</h3>
           <div className="form-group">
             <label>Name on Card</label>
-            <input type="name" className="form-control" aria-describedby="" placeholder="John Doe" />
+            <input type="name" onChange={this.handleNameOnCardChange} className="form-control" aria-describedby="" placeholder="John Doe" />
           </div>
           <div className="form-group">
             <label>Card Number</label>
@@ -154,7 +215,7 @@ export default class CheckoutForm extends React.Component {
           </div>
           <div className="form-group">
             <label>Month</label>
-            <select className="form-control">
+            <select onChange={this.handleMonthChange}className="form-control">
               <option>##</option>
               <option value="01">01</option>
               <option value="02">02</option>
@@ -170,7 +231,7 @@ export default class CheckoutForm extends React.Component {
               <option value="12">12</option>
             </select>
             <label>Year</label>
-            <select className="form-control">
+            <select onChange={this.handleYearChange} className="form-control">
               <option>####</option>
               <option value="2020">2020</option>
               <option value="2021">2021</option>
@@ -181,7 +242,7 @@ export default class CheckoutForm extends React.Component {
               <option value="2026">2026</option>
             </select>
             <label>CVC</label>
-            <input type="tele" className="form-control" aria-describedby="card number" placeholder="###" />
+            <input onChange={this.handleCvcChange} type="tele" className="form-control" aria-describedby="card number" placeholder="###" />
           </div>
           <hr className="my-4"></hr>
           <input className="form-check-input" type="checkbox" required />
