@@ -30,3 +30,13 @@ A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 - The power of reusuable elements in creating a site
 - How React helps make an efficent UX/UI design
 - The power of bootstrap when combined with a framework such as React
+
+## Getting Started
+- For this repository to your github
+- Clone this repository from your github to your local computer
+- Go into this repository;s directory using a terminal
+- Run "npm install"
+- Start a dev environment with access to Apache and postgresql
+- Run npm dev
+- Open your browser to localhost:3000
+- Enjoy and make sure this is just an example site! No sales can be made!
