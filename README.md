@@ -37,14 +37,36 @@ A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 - The power of bootstrap when combined with a framework such as React
 
 ## Getting Started
-- For this repository to your github
-- Clone this repository from your github to your local computer
-- Go into this repository;s directory using a terminal
-- Run "npm install"
-- Start a dev environment with access to Apache and postgresql
-- Run npm dev
-- Open your browser to localhost:3000
-- Enjoy and make sure this is just an example site! No sales can be made!
+1. Clone this repository from your github to your local computer
+```
 
-## Site In Action
+git clone https://github.com/jdinh8124/Peytons-Omaha-Sales 
+
+```
+2. Go into this repositorys directory using a terminal
+```
+cd peytons-omaha-sales
+
+```
+3. Run "npm install"
+``` 
+
+npm install
+
+```
+4. Run npm dev
+``` 
+
+npm run dev
+
+```
+5. Open your browser to localhost:3000
+```  
+
+https://localhost:3000 
+
+```
+6. Enjoy and make sure this is just an example site! No sales can be made!
+
+## Live Demo
 ![Peytons Omaha Sales](demo.gif)
