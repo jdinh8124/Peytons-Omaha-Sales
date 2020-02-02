@@ -15,22 +15,33 @@ export default class CheckoutForm extends React.Component {
       state: '',
       month: '',
       year: '',
-      cvc: ''
+      cvc: '',
+      empty: false
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePrimaryShippingChange = this.handlePrimaryShippingChange.bind(this);
-    this.handlePhoneChange = this.handlePhoneChange.bind(this);
-    this.handleSecondaryShippingChange = this.handleSecondaryShippingChange.bind(this);
-    this.handleCityChange = this.handleCityChange.bind(this);
-    this.handleStateChange = this.handleStateChange.bind(this);
-    this.handleCreditChange = this.handleCreditChange.bind(this);
-    this.handleNameOnCardChange = this.handleNameOnCardChange.bind(this);
-    this.handleMonthChange = this.handleMonthChange.bind(this);
-    this.handleYearChange = this.handleYearChange.bind(this);
-    this.handleCvcChange = this.handleCvcChange.bind(this);
+  //   this.handleNameChange = this.handleNameChange.bind(this);
+  //   this.handleEmailChange = this.handleEmailChange.bind(this);
+  //   this.handlePrimaryShippingChange = this.handlePrimaryShippingChange.bind(this);
+  //   this.handlePhoneChange = this.handlePhoneChange.bind(this);
+  //   this.handleSecondaryShippingChange = this.handleSecondaryShippingChange.bind(this);
+  //   this.handleCityChange = this.handleCityChange.bind(this);
+  //   this.handleStateChange = this.handleStateChange.bind(this);
+  //   this.handleCreditChange = this.handleCreditChange.bind(this);
+  //   this.handleNameOnCardChange = this.handleNameOnCardChange.bind(this);
+  //   this.handleMonthChange = this.handleMonthChange.bind(this);
+  //   this.handleYearChange = this.handleYearChange.bind(this);
+  //   this.handleCvcChange = this.handleCvcChange.bind(this);
+  }
+
+  isFormEmpty() {
+    if (this.state.empty) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          You Have Empty Fields
+        </div>
+      );
+    }
   }
 
   handleNameChange(event) {
@@ -80,19 +91,20 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleCvcChange(event) {
-  //   if (typeof (parseInt(event.target.value)) === 'number') {
-  // if (event.target.value.length >= 3) {
-  //   return
-  //   }else{
-  //   this.setState({ cvc: event.target.value });
-  //   }
+    if (!Number(event.target.value)) {
+      return;
+    }
+    this.setState({ cvc: event.target.value });
   }
 
   onClickPlaceOrder() {
     event.preventDefault();
-    if (this.state.name === '' || this.state.course === '' || this.state.grade === '') {
+    if (this.state.name === '' || this.state.email === '' || this.state.creditCard === '' || this.state.phone === '' || this.state.shippingAddress === '' || this.state.shippingAddressTwo === '' ||
+      this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
+      this.setState(previousState => ({ empty: true }));
       return;
     }
+    this.setState(previousState => ({ empty: false }));
     const objectInfo = {
       name: this.state.name,
       creditCard: this.state.creditCard,
@@ -124,27 +136,27 @@ export default class CheckoutForm extends React.Component {
         <form onSubmit={this.onClickPlaceOrder} className="col-6 offset-3">
           <div className="form-group">
             <label>Name</label>
-            <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name"/>
+            <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
           </div>
           <div className="form-group">
             <label >Email</label>
-            <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" />
+            <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" maxLength="254" />
           </div>
           <div className="form-group">
             <label>Phone Number</label>
-            <input type="tele" onChange={this.handlePhoneChange} className="form-control" placeholder="123456" />
+            <input type="tele" onChange={this.handlePhoneChange} className="form-control" placeholder="7149090000" maxLength="11"/>
           </div>
           <div className="form-group">
             <label>Address</label>
-            <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." />
+            <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." maxLength="42" />
           </div>
           <div className="form-group">
             <label>Address 2</label>
-            <input onChange={this.handleSecondaryShippingChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" />
+            <input onChange={this.handleSecondaryShippingChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" maxLength="42" />
           </div>
           <div className="form-group">
             <label>City</label>
-            <input onChange={this.handleCityChange} className="form-control" placeholder="City" />
+            <input onChange={this.handleCityChange} className="form-control" placeholder="City" maxLength="50"/>
           </div>
           <div className="form-group">
             <label htmlFor="state">State</label>
@@ -211,7 +223,7 @@ export default class CheckoutForm extends React.Component {
           </div>
           <div className="form-group">
             <label>Card Number</label>
-            <input type="tele" className="form-control" aria-describedby="card number" placeholder="12345668495" />
+            <input type="tele" className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
           </div>
           <div className="form-group">
             <label>Month</label>
@@ -242,8 +254,9 @@ export default class CheckoutForm extends React.Component {
               <option value="2026">2026</option>
             </select>
             <label>CVC</label>
-            <input onChange={this.handleCvcChange} type="tele" className="form-control" aria-describedby="card number" placeholder="###" />
+            <input onChange={this.handleCvcChange} pattern="^-?[0-9]\d*\.?\d*$" type="tele" className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
           </div>
+          {this.isFormEmpty()}
           <hr className="my-4"></hr>
           <input className="form-check-input" type="checkbox" required />
           <label>
