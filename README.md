@@ -40,3 +40,6 @@ A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 - Run npm dev
 - Open your browser to localhost:3000
 - Enjoy and make sure this is just an example site! No sales can be made!
+
+## Site In Action
+![Peytons Omaha Sales](demo.gif)
