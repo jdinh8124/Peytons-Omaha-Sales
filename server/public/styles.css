@@ -45,3 +45,10 @@ object-fit: contain;
 height: 6vw;
 width: 11vw;
 }
+
+.warningDiv{
+  margin-top: -7px;
+}
+.showError{
+  display: block;
+}
