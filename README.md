@@ -45,6 +45,7 @@ git clone https://github.com/jdinh8124/Peytons-Omaha-Sales
 ```
 2. Go into this repositorys directory using a terminal
 ```
+
 cd peytons-omaha-sales
 
 ```
