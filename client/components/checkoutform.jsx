@@ -20,18 +20,6 @@ export default class CheckoutForm extends React.Component {
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
-  //   this.handleNameChange = this.handleNameChange.bind(this);
-  //   this.handleEmailChange = this.handleEmailChange.bind(this);
-  //   this.handlePrimaryShippingChange = this.handlePrimaryShippingChange.bind(this);
-  //   this.handlePhoneChange = this.handlePhoneChange.bind(this);
-  //   this.handleSecondaryShippingChange = this.handleSecondaryShippingChange.bind(this);
-  //   this.handleCityChange = this.handleCityChange.bind(this);
-  //   this.handleStateChange = this.handleStateChange.bind(this);
-  //   this.handleCreditChange = this.handleCreditChange.bind(this);
-  //   this.handleNameOnCardChange = this.handleNameOnCardChange.bind(this);
-  //   this.handleMonthChange = this.handleMonthChange.bind(this);
-  //   this.handleYearChange = this.handleYearChange.bind(this);
-  //   this.handleCvcChange = this.handleCvcChange.bind(this);
   }
 
   isFormEmpty() {

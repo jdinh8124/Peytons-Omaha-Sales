@@ -5,7 +5,12 @@ height: 20vh;
 
 .fit-single-image{
 object-fit: contain;
-height: 30vh;
+height: 25vh;
+}
+
+.fit-eli{
+  object-fit: contain;
+  height: 23vh;
 }
 
 .pointer:hover {

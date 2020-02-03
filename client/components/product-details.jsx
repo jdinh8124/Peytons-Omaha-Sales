@@ -43,19 +43,27 @@ export default class ProductDetails extends React.Component {
     }));
   }
 
+  checkImgSize() {
+    if (this.state.product.productId === 6) {
+      return 'fit-eli';
+    } else {
+      return 'fit-single-image';
+    }
+  }
+
   render() {
     const modal = this.itemBoughtModal();
     if (this.state.product) {
       return (
         <>
           {modal}
-          <div className="card m-5 col-11" >
+          <div className="card  m-md-5 col-sm-11 col-md-11" >
             <div className="pointer" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
             <div className="row">
-              <div className="col-4">
-                <img src={this.state.product.image} className="ml-1 fit-single-image" alt="Image of Product" />
+              <div className="col-4 mr-1">
+                <img src={this.state.product.image} className={this.checkImgSize()} alt="Image of Product" />
               </div>
-              <div className="col-7">
+              <div className="col-7 ml-4">
                 <h5 className="card-title ">{this.state.product.name}</h5>
                 <h6 className="card-subtitle mb-2 text-muted ">${(this.state.product.price / 100).toFixed(2)}</h6>
                 <p className="card-text">{this.state.product.shortDescription}</p>

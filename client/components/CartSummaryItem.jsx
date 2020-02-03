@@ -51,7 +51,7 @@ export default class CartSummaryItem extends React.Component {
     return (
       <>
         {this.openModal()}
-        <div className="card col-lg-7 mb-lg-5" >
+        <div className="card  col-lg-7 mb-lg-5" >
           <div className="row">
             <div className="col-lg-4">
               {this.pictureSize()}
