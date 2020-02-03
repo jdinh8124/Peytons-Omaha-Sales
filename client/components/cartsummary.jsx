@@ -30,7 +30,7 @@ export default function CartSummary(props) {
 
   return (
     <>
-      <div className="col-3 offset-2 mb-5">
+      <div className="col-md-3 col-sm-6 offset-2 mb-5">
         <div className="pointer mb-3 " onClick={changeBackToCat}> {'< Back to Catalog'}</div>
         <h2>My Cart</h2>
       </div>
@@ -38,8 +38,8 @@ export default function CartSummary(props) {
         {cartItems()}
       </div>
       <footer className="row mb-5" >
-        <h1 className="col-3 offset-3 ">Item Total ${calculateTotal()}</h1>
-        <button type="button" onClick={changeToCheckout} className=" offset-2 col-1 btn btn-primary">Checkout Here</button>
+        <h1 className="col-3 offset-3" >Item Total ${calculateTotal()}</h1>
+        <button type="button" onClick={changeToCheckout} className=" offset-md-2 col-md-1 col-sm-1 btn btn-primary">Checkout Here</button>
       </footer>
     </>
   );
