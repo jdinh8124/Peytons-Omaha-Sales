@@ -39,7 +39,7 @@ export default class ProductLists extends React.Component {
   render() {
     const elements = this.renderCards();
     return (
-      <main className="d-flex flex-wrap justify-content-center">
+      <main className="d-flex flex-wrap  justify-content-center">
         {elements}
       </main>
     );
