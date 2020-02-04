@@ -5,7 +5,7 @@ export default function IntroModal(props) {
   return (
     <div className="container">
       <div className="backdrop position-fixed d-flex h-100 w-100">
-        <div className="col-md-4 modal-contents m-auto bg-white border rounded mt-5 p-5">
+        <div className="col-12 col-sm-10 col-md-8 col-lg-5 modal-contents m-auto bg-white border rounded mt-5 p-5">
           <h2>{'Welcome to Peyton\'s Omaha Sales!'}</h2>
           <p>Please note that this website is a content management application created for the purpose of demonstration.
             Check the box below to acknowledge that the merchandise shown here is not available for purchase,

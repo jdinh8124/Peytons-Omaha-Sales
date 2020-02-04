@@ -265,7 +265,7 @@ export default class CheckoutForm extends React.Component {
           <hr className="my-4"></hr>
           <div className="mt-5 mb-5">
             <h3 className="pointer d-inline small-checkout mr-3" onClick={this.backToMainShop}>{'<Continue Shopping'}</h3>
-            <button className="btn btn-primary offset-lg-8 d-inline ">Submit</button>
+            <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>
           </div>
         </form>
       </>

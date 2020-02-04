@@ -13,7 +13,7 @@ export default function DeleteModal(props) {
   return (
     <div className="container">
       <div className="backdrop position-fixed d-flex h-100 w-100">
-        <div className="col-md-4 col offset-1 modal-contents m-auto bg-white border rounded mt-5 p-5">
+        <div className="col-md-7 col-lg-5 offset-1 modal-contents m-auto bg-white border rounded mt-5 p-5">
           <img src={props.picture} className="fit-single-cart col-7 offset-2" alt={props.name}/>
           <h2>Are you sure you want to delete {props.name} from your cart?</h2>
           <form>
