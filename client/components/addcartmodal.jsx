@@ -9,7 +9,7 @@ export default function AddCartModal(props) {
   return (
     <div className="container">
       <div className="backdrop position-fixed d-flex h-100 w-100">
-        <div className="col-md-4 col-xs-9 modal-contents m-auto bg-white border rounded mt-5 p-5">
+        <div className="col-md-5 col-xs-9 modal-contents m-auto bg-white border rounded mt-5 p-5">
           <h2>Item Added to Cart</h2>
           <p>{props.name} has been added to your cart</p>
           <form>

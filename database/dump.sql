@@ -592,28 +592,24 @@ SELECT pg_catalog.setval('public."products_productId_seq"', 1, false);
 -- Name: cartItems cartItems_pkey; Type: CONSTRAINT; Schema: public; Owner: dev
 --
 
-ALTER TABLE ONLY public."cartItems"
 
 
 --
 -- Name: carts carts_pkey; Type: CONSTRAINT; Schema: public; Owner: dev
 --
 
-ALTER TABLE ONLY public.carts
 
 
 --
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: dev
 --
 
-ALTER TABLE ONLY public.orders
 
 
 --
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: dev
 --
 
-ALTER TABLE ONLY public.products
 
 
 --
