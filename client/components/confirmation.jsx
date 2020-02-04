@@ -22,14 +22,14 @@ export default function Confirmation(props) {
 
   return (
     <>
-      <div className="col-3 offset-3 mb-5">
+      <div className="col-md-3 col-sm-12 offset-md-3 mb-5">
         <h1>Order Confirmation</h1>
         <h2>Order Total: $ {getTotal()}</h2>
       </div>
-      <div className="col-9 offset-3">
+      <div className="col-9 offset-md-3 offset-2 ">
         {getItems()}
       </div>
-      <h3 className="pointer col-3 offset-3 mb-5" onClick={backToCat}>{'< Back to the Catalog'}</h3>
+      <h3 className="pointer col-10 offset-1 mt-2 mb-5" onClick={backToCat}>{'< Back to the Catalog'}</h3>
     </>
   );
 }

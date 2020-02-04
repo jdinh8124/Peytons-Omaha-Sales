@@ -58,7 +58,7 @@ export default class ProductDetails extends React.Component {
         <>
           {modal}
           <div className="card  m-md-5 col-sm-11 col-md-11" >
-            <div className="pointer" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
+            <div className="pointer mb-2" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
             <div className="row">
               <div className="col-4 mr-1">
                 <img src={this.state.product.image} className={this.checkImgSize()} alt="Image of Product" />
