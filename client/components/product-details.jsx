@@ -44,7 +44,7 @@ export default class ProductDetails extends React.Component {
   }
 
   checkImgSize() {
-    if (this.state.product.productId === 6) {
+    if (this.state.product.productId === 6 || this.state.product.productId === 3) {
       return 'fit-eli';
     } else {
       return 'fit-single-image';
@@ -57,8 +57,8 @@ export default class ProductDetails extends React.Component {
       return (
         <>
           {modal}
-          <div className="card  m-md-5 col-sm-11 col-md-11" >
-            <div className="pointer mb-2" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
+          <div className="card  m-md-5 col-sm-10 offset-sm-1 offset-md-0 col-md-11" >
+            <div className="pointer mb-3" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
             <div className="row">
               <div className="col-4 mr-1">
                 <img src={this.state.product.image} className={this.checkImgSize()} alt="Image of Product" />

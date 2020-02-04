@@ -37,8 +37,8 @@ export default function CartSummary(props) {
       <div className="d-flex flex-column align-items-center">
         {cartItems()}
       </div>
-      <footer className=" col-sm-8 offset-sm-3 col-md-8 mb-5" >
-        <h1 className="col-md-3 offset-md-0 offset-2 d-md-inline" >Item Total: ${calculateTotal()}</h1>
+      <footer className=" col-sm-8 offset-sm-2 col-md-8 mb-5" >
+        <h1 className="col-md-3 offset-md-0 offset-1 d-md-inline" >Item Total: ${calculateTotal()}</h1>
         <button type="button" onClick={changeToCheckout} className="d-md-inline offset-3 offset-md-2  btn btn-primary">Checkout Here</button>
       </footer>
     </>
