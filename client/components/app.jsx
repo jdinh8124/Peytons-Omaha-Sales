@@ -211,7 +211,7 @@ export default class App extends React.Component {
     return (
       <div>
         {this.showIntroModal()}
-        <Header name="Peyton's Omaha Sales" cart={this.cartItemsCount()} onClick={this.setView}/>,
+        <Header name="Peyton's Omaha Sales" cart={this.cartItemsCount()} onClick={this.setView}/>
         {this.bodyToRender()}
       </div>
     );

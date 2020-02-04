@@ -1,3 +1,5 @@
+
+
 .fit-image{
 object-fit: contain;
 height: 20vh;
@@ -42,7 +44,7 @@ width: 17vw;
 
 .fit-single-cart-confirm{
 object-fit: contain;
-height: 8vw
+height: 16vw
 }
 
 .fit-single-shakeweight-confirm{

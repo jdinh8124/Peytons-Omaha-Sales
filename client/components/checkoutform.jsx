@@ -20,6 +20,18 @@ export default class CheckoutForm extends React.Component {
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePrimaryShippingChange = this.handlePrimaryShippingChange.bind(this);
+    this.handlePhoneChange = this.handlePhoneChange.bind(this);
+    this.handleSecondaryShippingChange = this.handleSecondaryShippingChange.bind(this);
+    this.handleCityChange = this.handleCityChange.bind(this);
+    this.handleStateChange = this.handleStateChange.bind(this);
+    this.handleCreditChange = this.handleCreditChange.bind(this);
+    this.handleNameOnCardChange = this.handleNameOnCardChange.bind(this);
+    this.handleMonthChange = this.handleMonthChange.bind(this);
+    this.handleYearChange = this.handleYearChange.bind(this);
+    this.handleCvcChange = this.handleCvcChange.bind(this);
   }
 
   isFormEmpty() {
@@ -211,7 +223,7 @@ export default class CheckoutForm extends React.Component {
           </div>
           <div className="form-group">
             <label>Card Number</label>
-            <input type="tele" className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
+            <input type="tele" onChange={this.handleCreditChange} className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
           </div>
           <div className="form-group">
             <label>Month</label>
@@ -251,9 +263,9 @@ export default class CheckoutForm extends React.Component {
             I acknowledge that this is a demo application, and the information above is not my genuine financial or personal information.
           </label>
           <hr className="my-4"></hr>
-          <div className="row mt-5">
+          <div className="row mt-5 mb-5">
             <h3 className="pointer" onClick={this.backToMainShop}>{'< Continue Shopping'}</h3>
-            <button className="btn btn-primary offset-7">Submit</button>
+            <button className="btn btn-primary offset-lg-3 ">Submit</button>
           </div>
         </form>
       </>
