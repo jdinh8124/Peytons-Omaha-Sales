@@ -19,7 +19,7 @@ export default function Header(props) {
   }
 
   return (
-    <header className=" paddingTop navbar navbar-light  bg-info">
+    <header className=" paddingTop navbar navbar-light col-12 bg-info">
       <div onClick={handleClickToHome} className="pointer ml-md-5">
         <div className="d-inline"><i className="text-white fas fa-football-ball "></i></div>
         <div className="ml-1 d-inline text-white">{props.name}</div>

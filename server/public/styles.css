@@ -15,7 +15,7 @@ height: 25vh;
 
 .fit-eli{
   object-fit: contain;
-  height: 23vh;
+  height: 25vh;
 }
 
 .pointer:hover {
@@ -70,5 +70,8 @@ width: 11vw;
 }
 p{
   font-size: 18px;
+}
+.fit-eli{
+  height: 19vh;
 }
 }
