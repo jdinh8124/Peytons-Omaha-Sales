@@ -17,14 +17,14 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -391,6 +391,27 @@ COPY public."cartItems" ("cartItemId", "cartId", "productId", price) FROM stdin;
 540	59	4	20000
 541	59	4	20000
 544	59	5	20000
+561	60	3	20000
+563	60	5	20000
+569	61	4	20000
+570	61	4	20000
+571	61	3	20000
+572	61	2	25000
+573	62	6	20000
+574	62	3	20000
+575	63	6	20000
+576	63	3	20000
+577	64	3	20000
+578	64	6	20000
+579	65	1	30000
+580	65	3	20000
+581	66	1	30000
+582	67	3	20000
+583	67	6	20000
+585	68	6	20000
+586	68	4	20000
+588	69	6	20000
+589	69	6	20000
 \.
 
 
@@ -458,6 +479,16 @@ COPY public.carts ("cartId", "createdAt") FROM stdin;
 57	2020-01-20 20:03:07.142879-08
 58	2020-01-22 09:26:48.125103-08
 59	2020-02-01 21:02:10.058645-08
+60	2020-02-03 09:59:22.896951-08
+61	2020-02-03 15:42:50.70501-08
+62	2020-02-03 17:48:37.348017-08
+63	2020-02-03 17:55:16.652046-08
+64	2020-02-03 18:01:03.133647-08
+65	2020-02-03 18:03:58.592839-08
+66	2020-02-03 18:06:48.018536-08
+67	2020-02-04 08:39:25.848946-08
+68	2020-02-04 08:54:30.180161-08
+69	2020-02-04 09:20:20.125174-08
 \.
 
 
@@ -504,6 +535,14 @@ COPY public.orders ("orderId", "cartId", name, "creditCard", "shippingAddress", 
 36	52	erewr	asdasdasd	112312	2020-01-19 20:16:36.453786-08
 37	53	dqdqwdq	sadasd	3241	2020-01-19 20:17:02.255034-08
 38	54	saad	asscasc	1212	2020-01-19 20:17:37.681876-08
+39	60	asd	213	dasd	2020-02-03 15:33:43.63665-08
+40	61	dsf	243	dsf	2020-02-03 17:47:11.021171-08
+41	62	qwe	3e421	dsddsf	2020-02-03 17:49:17.627808-08
+42	63	sdfd	4123	sdf	2020-02-03 17:55:35.629066-08
+43	64	sad	2312	sdad	2020-02-03 18:01:33.400053-08
+44	65	cfdsf	23112	asdas	2020-02-03 18:04:29.899283-08
+45	67	dsf	23423	dffdgdf	2020-02-04 08:52:20.657451-08
+46	68	dsf	324	dsfsdf	2020-02-04 09:18:48.181053-08
 \.
 
 
@@ -525,21 +564,21 @@ COPY public.products ("productId", name, price, image, "shortDescription", "long
 -- Name: cartItems_cartItemId_seq; Type: SEQUENCE SET; Schema: public; Owner: dev
 --
 
-SELECT pg_catalog.setval('public."cartItems_cartItemId_seq"', 544, true);
+SELECT pg_catalog.setval('public."cartItems_cartItemId_seq"', 589, true);
 
 
 --
 -- Name: carts_cartId_seq; Type: SEQUENCE SET; Schema: public; Owner: dev
 --
 
-SELECT pg_catalog.setval('public."carts_cartId_seq"', 59, true);
+SELECT pg_catalog.setval('public."carts_cartId_seq"', 69, true);
 
 
 --
 -- Name: orders_orderId_seq; Type: SEQUENCE SET; Schema: public; Owner: dev
 --
 
-SELECT pg_catalog.setval('public."orders_orderId_seq"', 38, true);
+SELECT pg_catalog.setval('public."orders_orderId_seq"', 46, true);
 
 
 --
@@ -554,7 +593,6 @@ SELECT pg_catalog.setval('public."products_productId_seq"', 1, false);
 --
 
 ALTER TABLE ONLY public."cartItems"
-    ADD CONSTRAINT "cartItems_pkey" PRIMARY KEY ("cartItemId");
 
 
 --
@@ -562,7 +600,6 @@ ALTER TABLE ONLY public."cartItems"
 --
 
 ALTER TABLE ONLY public.carts
-    ADD CONSTRAINT carts_pkey PRIMARY KEY ("cartId");
 
 
 --
@@ -570,7 +607,6 @@ ALTER TABLE ONLY public.carts
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT orders_pkey PRIMARY KEY ("orderId");
 
 
 --
@@ -578,10 +614,8 @@ ALTER TABLE ONLY public.orders
 --
 
 ALTER TABLE ONLY public.products
-    ADD CONSTRAINT products_pkey PRIMARY KEY ("productId");
 
 
 --
 -- PostgreSQL database dump complete
 --
-
