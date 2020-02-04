@@ -59,3 +59,10 @@ width: 11vw;
 .showError{
   display: block;
 }
+
+
+@media screen and (max-width: 400px){
+.small-checkout{
+  font-size: 20px;
+}
+}
