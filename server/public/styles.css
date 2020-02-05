@@ -59,16 +59,27 @@ width: 11vw;
   display: block;
 }
 
-@media screen and (max-width: 813px){
-  .total{
-    font-size: 28px!important ;
-  }
+
+@media screen and (max-width: 815px){
+
   .fit-eli{
-  height: 34vmin;
+  height: 50vmin;
 }
 .fit-image{
   height: 35vh;
 }
+  .total{
+    font-size: 28px!important ;
+  }
+
+}
+
+@media screen and (max-width: 805px){
+
+  .fit-eli{
+  height: 34vmin;
+}
+
 
 }
 
@@ -91,11 +102,13 @@ p{
   height: 40vh;
 width: 150%
 }
-}
+
 .fit-image{
   height: 30vh;
 }
 
 .fit-eli{
   height: 41vmin;
+}
+
 }
