@@ -12,6 +12,7 @@ export default class CheckoutForm extends React.Component {
       shippingAddressTwo: '',
       zip: '',
       city: '',
+      country: 'USA',
       creditCardName: '',
       state: '',
       month: '',
@@ -40,6 +41,7 @@ export default class CheckoutForm extends React.Component {
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleCvcChange = this.handleCvcChange.bind(this);
     this.setInputFilter = this.setInputFilter.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
 
   }
 
@@ -98,6 +100,10 @@ export default class CheckoutForm extends React.Component {
     this.setState({ state: event.target.value });
   }
 
+  handleCountryChange(event) {
+    this.setState({ country: event.target.value });
+  }
+
   handleNameOnCardChange(event) {
     this.setState({ creditCardName: event.target.value });
   }
@@ -137,7 +143,7 @@ export default class CheckoutForm extends React.Component {
           this.oldValue = this.value;
           this.oldSelectionStart = this.selectionStart;
           this.oldSelectionEnd = this.selectionEnd;
-        } else if (textbox.hasOwnProperty.call('oldValue')) {
+        } else if (Object.prototype.hasOwnProperty.call(textbox, 'oldValue')) {
           this.value = this.oldValue;
           this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
         } else {
@@ -154,44 +160,52 @@ export default class CheckoutForm extends React.Component {
       this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
       issues = true;
+      return;
+    } else {
+      this.setState(previousState => ({ empty: false }));
     }
-    this.setState(previousState => ({ empty: false }));
 
     const re = /\S+@\S+\.\S+/;
     if (!re.test(this.state.email) || this.state.email.length < 6) {
       this.setState(previousState => ({ emailError: true }));
       issues = true;
+    } else {
+      this.setState(previousState => ({ emailError: false }));
     }
-    this.setState(previousState => ({ emailError: false }));
     if (this.state.phone.length < 10) {
       this.setState(previousState => ({ phoneError: true }));
       issues = true;
+    } else {
+      this.setState(previousState => ({ phoneError: false }));
     }
-    this.setState(previousState => ({ phoneError: false }));
 
     if (this.state.creditCard.length < 16) {
       this.setState(previousState => ({ creditError: true }));
       issues = true;
+    } else {
+      this.setState(previousState => ({ creditError: false }));
     }
-    this.setState(previousState => ({ creditError: false }));
 
     if (this.state.zip.length < 5) {
       this.setState(previousState => ({ zipError: true }));
       issues = true;
+    } else {
+      this.setState(previousState => ({ zipError: false }));
     }
-    this.setState(previousState => ({ zipError: false }));
 
     if (this.state.cvc.length < 3) {
       this.setState(previousState => ({ cvcError: true }));
       issues = true;
+    } else {
+      this.setState(previousState => ({ cvcError: false }));
     }
-    this.setState(previousState => ({ cvcError: false }));
 
     if (this.state.city.length < 3) {
       this.setState(previousState => ({ cityError: true }));
       issues = true;
+    } else {
+      this.setState(previousState => ({ cityError: false }));
     }
-    this.setState(previousState => ({ cityError: false }));
 
     if (issues) {
       return;
@@ -200,10 +214,25 @@ export default class CheckoutForm extends React.Component {
     const objectInfo = {
       name: this.state.name,
       creditCard: this.state.creditCard,
-      shippingAddress: this.state.shippingAddress
+      shippingAddress: `${this.state.shippingAddress} ${this.state.shippingAddressTwo} ${this.state.zip} ${this.state.city} ${this.state.state}`
     };
     this.props.placeOrder(objectInfo);
-    this.setState({ name: '', creditCard: '', shippingAddress: '' });
+    this.setState({
+      name: '',
+      email: '',
+      creditCard: '',
+      phone: '',
+      shippingAddress: '',
+      shippingAddressTwo: '',
+      zip: '',
+      city: '',
+      country: 'USA',
+      creditCardName: '',
+      state: '',
+      month: '',
+      year: '',
+      cvc: ''
+    });
   }
 
   priceTotal() {
@@ -374,6 +403,10 @@ export default class CheckoutForm extends React.Component {
               <option value="WI">Wisconsin</option>
               <option value="WY">Wyoming</option>
             </select>
+          </div>
+          <div className="form-group">
+            <label>Country</label>
+            <input onChange={this.handleCountryChange} className="form-control" value="USA" placeholder="USA" maxLength="15" />
           </div>
           <hr className="my-4"></hr>
           <h3>Payment</h3>
