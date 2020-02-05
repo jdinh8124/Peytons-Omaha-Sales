@@ -44,7 +44,7 @@ export default class ProductDetails extends React.Component {
   }
 
   checkImgSize() {
-    if (this.state.product.productId === 6 || this.state.product.productId === 3 || this.state.product.productId === 2) {
+    if (this.state.product.productId === 6 || this.state.product.productId === 3 || this.state.product.productId === 2 || this.state.product.productId === 1) {
       return 'fit-eli';
     } else {
       return 'fit-single-image';
