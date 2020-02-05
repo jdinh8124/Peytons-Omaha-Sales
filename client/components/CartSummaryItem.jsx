@@ -53,14 +53,14 @@ export default class CartSummaryItem extends React.Component {
         {this.openModal()}
         <div className="col-8 card  col-lg-7 mb-2 mb-lg-5" >
           <div className="row">
-            <div className="col-lg-4">
+            <div className="col-lg-4 offset-2 offset-sm-3  offset-lg-0">
               {this.pictureSize()}
             </div>
             <div className="col-lg-7">
               <h5 className="card-title ">{this.props.name}</h5>
               <h6 className="card-subtitle mb-lg-2 text-muted ">${(this.props.price / 100).toFixed(2)}</h6>
               <p className="card-text">{this.props.shortDescription}</p>
-              <div>
+              <div className="offset-3 offset-sm-4 offset-md-4 offset-lg-0">
                 <button onClick={this.deleteItems} className="m-1"><i className="fas fa-minus-square"></i></button>
                 {this.props.quantity}
                 <button onClick={this.addItems}className="m-1"><i className="fas fa-plus-square"></i></button>

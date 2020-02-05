@@ -80,7 +80,12 @@ width: 11vw;
   height: 34vmin;
 }
 
+}
 
+@media screen and (max-width: 770px){
+.fit-single-cart{
+height: 30vw
+}
 }
 
 @media screen and (max-width: 667px){
