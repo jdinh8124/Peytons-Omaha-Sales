@@ -39,6 +39,7 @@ export default class App extends React.Component {
   }
 
   closeIntroModal() {
+    event.preventDefault();
     this.setState(previousState => ({ showModal: false })
     );
   }
