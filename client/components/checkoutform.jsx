@@ -214,7 +214,7 @@ export default class CheckoutForm extends React.Component {
     const objectInfo = {
       name: this.state.name,
       creditCard: this.state.creditCard,
-      shippingAddress: `${this.state.shippingAddress} ${this.state.shippingAddressTwo} ${this.state.zip} ${this.state.city} ${this.state.state}`
+      shippingAddress: `${this.state.shippingAddress} ${this.state.shippingAddressTwo} ${this.state.zip} ${this.state.city} ${this.state.state} ${this.state.country}`
     };
     this.props.placeOrder(objectInfo);
     this.setState({
