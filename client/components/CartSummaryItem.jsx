@@ -14,8 +14,8 @@ export default class CartSummaryItem extends React.Component {
   }
 
   pictureSize() {
-    if (this.props.img === '/images/shake-weight.jpg') {
-      return <img src={this.props.img} className="fit-single-shakeweight" alt="Image of Product" />;
+    if (this.props.img === '/images/sharpe.jpg') {
+      return <img src={this.props.img} className="fit-single-cart margin-left" alt="Image of Product" />;
     } else {
       return <img src={this.props.img} className=" fit-single-cart" alt="Image of Product" />;
     }
