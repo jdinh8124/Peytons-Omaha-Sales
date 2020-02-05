@@ -7,9 +7,8 @@ height: 20vh;
 
 .fit-single-image{
 object-fit: contain;
-height: 25vh;
+width: 80%;
 }
-
 .fit-eli{
   object-fit: contain;
   height: 25vh;
@@ -64,9 +63,16 @@ width: 11vw;
   .total{
     font-size: 28px!important ;
   }
+  .fit-eli{
+  height: 34vmin;
+}
+.fit-image{
+  height: 35vh;
 }
 
-@media screen and (max-width: 616px){
+}
+
+@media screen and (max-width: 667px){
 .small-checkout{
   font-size: 20px;
 }
@@ -74,6 +80,22 @@ p{
   font-size: 18px;
 }
 .fit-eli{
-  height: 19vh;
+  height: 40vmin;
 }
+}
+
+
+
+@media screen and (max-width: 415px){
+.fit-single-image{
+  height: 40vh;
+width: 150%
+}
+}
+.fit-image{
+  height: 30vh;
+}
+
+.fit-eli{
+  height: 41vmin;
 }
