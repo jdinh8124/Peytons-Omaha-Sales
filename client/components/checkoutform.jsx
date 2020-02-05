@@ -10,13 +10,22 @@ export default class CheckoutForm extends React.Component {
       phone: '',
       shippingAddress: '',
       shippingAddressTwo: '',
+      zip: '',
       city: '',
+      country: 'USA',
       creditCardName: '',
       state: '',
       month: '',
       year: '',
       cvc: '',
-      empty: false
+      empty: false,
+      nameError: false,
+      emailError: false,
+      phoneError: false,
+      addressError: false,
+      creditError: false,
+      cvcError: false,
+      cityError: false
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
@@ -25,6 +34,7 @@ export default class CheckoutForm extends React.Component {
     this.handlePrimaryShippingChange = this.handlePrimaryShippingChange.bind(this);
     this.handlePhoneChange = this.handlePhoneChange.bind(this);
     this.handleSecondaryShippingChange = this.handleSecondaryShippingChange.bind(this);
+    this.handleZipChange = this.handleZipChange.bind(this);
     this.handleCityChange = this.handleCityChange.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleCreditChange = this.handleCreditChange.bind(this);
@@ -32,6 +42,9 @@ export default class CheckoutForm extends React.Component {
     this.handleMonthChange = this.handleMonthChange.bind(this);
     this.handleYearChange = this.handleYearChange.bind(this);
     this.handleCvcChange = this.handleCvcChange.bind(this);
+    this.setInputFilter = this.setInputFilter.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
+
   }
 
   isFormEmpty() {
@@ -54,6 +67,12 @@ export default class CheckoutForm extends React.Component {
   }
 
   handlePhoneChange(event) {
+    this.setInputFilter(document.getElementById('phone'), function (value) {
+      return /^-?\d*$/.test(value);
+    });
+    if (!Number(event.target.value)) {
+      return;
+    }
     this.setState({ phone: event.target.value });
   }
 
@@ -65,6 +84,16 @@ export default class CheckoutForm extends React.Component {
     this.setState({ shippingAddressTwo: event.target.value });
   }
 
+  handleZipChange(event) {
+    this.setInputFilter(document.getElementById('zip'), function (value) {
+      return /^-?\d*$/.test(value);
+    });
+    if (!Number(event.target.value)) {
+      return;
+    }
+    this.setState({ zip: event.target.value });
+  }
+
   handleCityChange(event) {
     this.setState({ city: event.target.value });
   }
@@ -73,12 +102,21 @@ export default class CheckoutForm extends React.Component {
     this.setState({ state: event.target.value });
   }
 
+  handleCountryChange(event) {
+    this.setState({ country: event.target.value });
+  }
+
   handleNameOnCardChange(event) {
     this.setState({ creditCardName: event.target.value });
-
   }
 
   handleCreditChange(event) {
+    this.setInputFilter(document.getElementById('creditCard'), function (value) {
+      return /^-?\d*$/.test(value);
+    });
+    if (!Number(event.target.value)) {
+      return;
+    }
     this.setState({ creditCard: event.target.value });
   }
 
@@ -91,27 +129,132 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleCvcChange(event) {
+    this.setInputFilter(document.getElementById('cvc'), function (value) {
+      return /^-?\d*$/.test(value);
+    });
     if (!Number(event.target.value)) {
       return;
     }
     this.setState({ cvc: event.target.value });
   }
 
+  setInputFilter(textbox, inputFilter) {
+    ['input'].forEach(function (event) {
+      textbox.addEventListener(event, function () {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (Object.prototype.hasOwnProperty.call(textbox, 'oldValue')) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        } else {
+          this.value = '';
+        }
+      });
+    });
+  }
+
   onClickPlaceOrder() {
+    let issues = false;
     event.preventDefault();
-    if (this.state.name === '' || this.state.email === '' || this.state.creditCard === '' || this.state.phone === '' || this.state.shippingAddress === '' || this.state.shippingAddressTwo === '' ||
+    if (this.state.name === '' || this.state.email === '' || this.state.creditCard === '' || this.state.phone === '' || this.state.shippingAddress === '' ||
       this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
+      issues = true;
+      return;
+    } else {
+      this.setState(previousState => ({ empty: false }));
+    }
+
+    const myString = this.state.name;
+    const noSpaceText = myString.replace(/ /g, '');
+    const textLength = noSpaceText.length;
+    if (textLength < 5) {
+      this.setState(previousState => ({ nameError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ nameError: false }));
+    }
+
+    const address = this.state.shippingAddress;
+    const noSpace = address.replace(/ /g, '');
+    const addressLength = noSpace.length;
+    if (addressLength < 6) {
+      this.setState(previousState => ({ addressError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ addressError: false }));
+    }
+
+    const re = /\S+@\S+\.\S+/;
+    if (!re.test(this.state.email) || this.state.email.length < 6) {
+      this.setState(previousState => ({ emailError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ emailError: false }));
+    }
+    if (this.state.phone.length < 10) {
+      this.setState(previousState => ({ phoneError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ phoneError: false }));
+    }
+
+    if (this.state.creditCard.length < 16) {
+      this.setState(previousState => ({ creditError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ creditError: false }));
+    }
+
+    if (this.state.zip.length < 5) {
+      this.setState(previousState => ({ zipError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ zipError: false }));
+    }
+
+    if (this.state.cvc.length < 3) {
+      this.setState(previousState => ({ cvcError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ cvcError: false }));
+    }
+
+    if (this.state.city.length < 3) {
+      this.setState(previousState => ({ cityError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ cityError: false }));
+    }
+
+    if (issues) {
       return;
     }
-    this.setState(previousState => ({ empty: false }));
+
     const objectInfo = {
       name: this.state.name,
       creditCard: this.state.creditCard,
-      shippingAddress: this.state.shippingAddress
+      shippingAddress: `${this.state.shippingAddress} ${this.state.shippingAddressTwo} ${this.state.zip} ${this.state.city} ${this.state.state} ${this.state.country}`
     };
     this.props.placeOrder(objectInfo);
-    this.setState({ name: '', creditCard: '', shippingAddress: '' });
+    this.setState({
+      name: '',
+      email: '',
+      creditCard: '',
+      phone: '',
+      shippingAddress: '',
+      shippingAddressTwo: '',
+      zip: '',
+      city: '',
+      country: 'USA',
+      creditCardName: '',
+      state: '',
+      month: '',
+      year: '',
+      cvc: ''
+    });
   }
 
   priceTotal() {
@@ -126,10 +269,90 @@ export default class CheckoutForm extends React.Component {
     this.props.setView('catalog', {});
   }
 
+  isNameValid() {
+    if (this.state.nameError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Name was too short
+        </div>
+      );
+    }
+  }
+
+  isThereAnEmailError() {
+    if (this.state.emailError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your Email Was Not Valid
+        </div>
+      );
+    }
+  }
+
+  isThereAPhoneError() {
+    if (this.state.phoneError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your Phone Number Was invalid
+        </div>
+      );
+    }
+  }
+
+  isAddressValid() {
+    if (this.state.addressError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your Address was invalid
+        </div>
+      );
+    }
+  }
+
+  isCityValid() {
+    if (this.state.cityError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your city was invalid in length
+        </div>
+      );
+    }
+  }
+
+  isCreditValid() {
+    if (this.state.creditError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your Credit Card Number Was invalid
+        </div>
+      );
+    }
+  }
+
+  isZipValid() {
+    if (this.state.zipError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your Zip Code was invalid
+        </div>
+      );
+    }
+  }
+
+  iscvcValid() {
+    if (this.state.cvcError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          CVC was too short
+        </div>
+      );
+    }
+  }
+
   render() {
     return (
       <>
-        <div className="col-sm-12 col-md-6 offset-md-4 mb-5">
+        <div className="col-sm-12 col-md-6 offset-md-4 offset-lg-3 mb-5">
           <h1>Checkout</h1>
           <h2>Order Total: ${this.priceTotal()}</h2>
         </div>
@@ -138,26 +361,36 @@ export default class CheckoutForm extends React.Component {
             <label>Name</label>
             <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
           </div>
+          {this.isNameValid()}
           <div className="form-group">
             <label >Email</label>
             <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" maxLength="254" />
           </div>
+          {this.isThereAnEmailError()}
           <div className="form-group">
             <label>Phone Number</label>
-            <input type="tele" onChange={this.handlePhoneChange} className="form-control" placeholder="7149090000" maxLength="11"/>
+            <input id="phone" onChange={this.handlePhoneChange} className="form-control" placeholder="7149090000" maxLength="10"/>
           </div>
+          {this.isThereAPhoneError()}
           <div className="form-group">
             <label>Address</label>
             <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." maxLength="42" />
           </div>
+          {this.isAddressValid()}
           <div className="form-group">
             <label>Address 2</label>
             <input onChange={this.handleSecondaryShippingChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" maxLength="42" />
           </div>
           <div className="form-group">
+            <label>Five Digit Zip Code</label>
+            <input onChange={this.handleZipChange} id="zip" className="form-control" placeholder="92000" maxLength="5" />
+          </div>
+          {this.isZipValid()}
+          <div className="form-group">
             <label>City</label>
             <input onChange={this.handleCityChange} className="form-control" placeholder="City" maxLength="50"/>
           </div>
+          {this.isCityValid()}
           <div className="form-group">
             <label htmlFor="state">State</label>
             <select onChange={this.handleStateChange} className="form-control" name="state">
@@ -215,6 +448,10 @@ export default class CheckoutForm extends React.Component {
               <option value="WY">Wyoming</option>
             </select>
           </div>
+          <div className="form-group">
+            <label>Country</label>
+            <input onChange={this.handleCountryChange} className="form-control" value="USA" placeholder="USA" maxLength="15" />
+          </div>
           <hr className="my-4"></hr>
           <h3>Payment</h3>
           <div className="form-group">
@@ -223,8 +460,9 @@ export default class CheckoutForm extends React.Component {
           </div>
           <div className="form-group">
             <label>Card Number</label>
-            <input type="tele" onChange={this.handleCreditChange} className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
+            <input onChange={this.handleCreditChange} id="creditCard" className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
           </div>
+          {this.isCreditValid()}
           <div className="form-group">
             <label>Month</label>
             <select onChange={this.handleMonthChange}className="form-control">
@@ -254,8 +492,9 @@ export default class CheckoutForm extends React.Component {
               <option value="2026">2026</option>
             </select>
             <label>CVC</label>
-            <input onChange={this.handleCvcChange} pattern="^-?[0-9]\d*\.?\d*$" type="tele" className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
+            <input onChange={this.handleCvcChange} id="cvc" className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
           </div>
+          {this.iscvcValid()}
           {this.isFormEmpty()}
           <hr className="my-4"></hr>
           <input className="form-check-input" type="checkbox" required />
