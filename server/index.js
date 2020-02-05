@@ -1,6 +1,6 @@
 require('dotenv/config');
 const express = require('express');
-const bcrpyt = require('bcrpyt');
+const bcrypt = require('bcrypt');
 const db = require('./database');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
@@ -174,7 +174,7 @@ app.post('/api/orders', (req, res, next) => {
     throw new ClientError('Cannot complete your order because information was missing!', 404);
   }
 
-  bcrpyt.hash(req.body.creditCard, 15, function (err, hash) {
+  bcrypt.hash(req.body.creditCard, 10, function (err, hash) {
     console.error(err);
     const sql = `
   insert into "orders" ("cartId","name","creditCard", "shippingAddress")
@@ -186,9 +186,9 @@ app.post('/api/orders', (req, res, next) => {
     db.query(sql, params)
       .then(result => {
         delete req.session.cartId;
-        res.status(201).json(result.rows[0])
-          .catch(err => next(err));
-      });
+        res.status(201).json(result.rows[0]);
+      })
+      .catch(err => next(err));
 
   });
 

@@ -19,8 +19,10 @@ export default class CheckoutForm extends React.Component {
       year: '',
       cvc: '',
       empty: false,
+      nameError: false,
       emailError: false,
       phoneError: false,
+      addressError: false,
       creditError: false,
       cvcError: false,
       cityError: false
@@ -165,6 +167,26 @@ export default class CheckoutForm extends React.Component {
       this.setState(previousState => ({ empty: false }));
     }
 
+    const myString = this.state.name;
+    const noSpaceText = myString.replace(/ /g, '');
+    const textLength = noSpaceText.length;
+    if (textLength < 5) {
+      this.setState(previousState => ({ nameError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ nameError: false }));
+    }
+
+    const address = this.state.shippingAddress;
+    const noSpace = address.replace(/ /g, '');
+    const addressLength = noSpace.length;
+    if (addressLength < 6) {
+      this.setState(previousState => ({ addressError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ addressError: false }));
+    }
+
     const re = /\S+@\S+\.\S+/;
     if (!re.test(this.state.email) || this.state.email.length < 6) {
       this.setState(previousState => ({ emailError: true }));
@@ -247,6 +269,16 @@ export default class CheckoutForm extends React.Component {
     this.props.setView('catalog', {});
   }
 
+  isNameValid() {
+    if (this.state.nameError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Name was too short
+        </div>
+      );
+    }
+  }
+
   isThereAnEmailError() {
     if (this.state.emailError) {
       return (
@@ -262,6 +294,16 @@ export default class CheckoutForm extends React.Component {
       return (
         <div className="invalid-feedback showError mb-3 warningDiv">
           Your Phone Number Was invalid
+        </div>
+      );
+    }
+  }
+
+  isAddressValid() {
+    if (this.state.addressError) {
+      return (
+        <div className="invalid-feedback showError mb-3 warningDiv">
+          Your Address was invalid
         </div>
       );
     }
@@ -319,6 +361,7 @@ export default class CheckoutForm extends React.Component {
             <label>Name</label>
             <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
           </div>
+          {this.isNameValid()}
           <div className="form-group">
             <label >Email</label>
             <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" maxLength="254" />
@@ -333,6 +376,7 @@ export default class CheckoutForm extends React.Component {
             <label>Address</label>
             <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." maxLength="42" />
           </div>
+          {this.isAddressValid()}
           <div className="form-group">
             <label>Address 2</label>
             <input onChange={this.handleSecondaryShippingChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" maxLength="42" />

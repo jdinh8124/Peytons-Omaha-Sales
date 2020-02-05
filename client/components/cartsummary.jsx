@@ -39,7 +39,7 @@ export default function CartSummary(props) {
       </div>
       <footer className=" col-sm-8 offset-sm-2 col-md-8 mb-5" >
         <h1 className="total col-md-3 offset-md-0 offset-1 offset-xl-2 d-md-inline" >Item Total: ${calculateTotal()}</h1>
-        <button type="button" onClick={changeToCheckout} className="d-md-inline offset-3 offset-md-2 offset-lg-1 offset-xl-4  btn btn-primary">Checkout Here</button>
+        <button type="button" onClick={changeToCheckout} className="d-md-inline offset-3 offset-md-2 offset-lg-1 offset-xl-3  btn btn-primary">Checkout Here</button>
       </footer>
     </>
   );
