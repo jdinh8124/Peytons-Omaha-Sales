@@ -24,7 +24,7 @@ export default function Confirmation(props) {
     <>
       <div className="col-md-4 col-sm-12 offset-md-3 mb-5">
         <h1>Order Confirmation</h1>
-        <h2>Order Total: $ {getTotal()}</h2>
+        <h2>Order Total: ${getTotal()}</h2>
       </div>
       <div className="col-9 offset-md-2 offset-lg-3 offset-2 pr-5 pr-lg-0 ">
         {getItems()}
