@@ -90,6 +90,9 @@ width: 11vw;
 .fit-single-cart{
 height: 30vw
 }
+.fit-single-cart-confirm{
+height: 30vw
+}
 }
 
 @media screen and (max-width: 667px){
