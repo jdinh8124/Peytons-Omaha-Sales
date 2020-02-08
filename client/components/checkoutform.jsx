@@ -188,7 +188,10 @@ export default class CheckoutForm extends React.Component {
     }
 
     const re = /\S+@\S+\.\S+/;
-    if (!re.test(this.state.email) || this.state.email.length < 6) {
+    const emailString = this.state.email;
+    const noSpaceEmail = emailString.replace(/ /g, '');
+    const emailTextLength = noSpaceEmail.length;
+    if (!re.test(this.state.email) || emailTextLength < 6) {
       this.setState(previousState => ({ emailError: true }));
       issues = true;
     } else {
@@ -222,7 +225,10 @@ export default class CheckoutForm extends React.Component {
       this.setState(previousState => ({ cvcError: false }));
     }
 
-    if (this.state.city.length < 3) {
+    const cityString = this.state.city;
+    const noSpaceCity = cityString.replace(/ /g, '');
+    const cityTextLength = noSpaceCity.length;
+    if (cityTextLength < 3) {
       this.setState(previousState => ({ cityError: true }));
       issues = true;
     } else {
