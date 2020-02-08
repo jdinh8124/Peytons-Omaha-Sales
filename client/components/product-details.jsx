@@ -60,7 +60,7 @@ export default class ProductDetails extends React.Component {
           <div className="card  m-md-5 col-sm-10 offset-sm-1 offset-md-0 col-md-11" >
             <div className="pointer mb-3" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
             <div className="row">
-              <div className="col-4 mr-1">
+              <div className="col-4 col-lg-3 offset-lg-1 mr-1">
                 <img src={this.state.product.image} className={this.checkImgSize()} alt="Image of Product" />
               </div>
               <div className="col-7 ml-4 ml-sm-3 ml-md-4">

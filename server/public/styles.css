@@ -7,7 +7,7 @@ height: 20vh;
 
 .fit-single-image{
 object-fit: contain;
-width: 80%;
+height: 14vw;
 }
 .fit-eli{
   object-fit: contain;
@@ -63,7 +63,13 @@ width: 11vw;
   display: block;
 }
 
+@media screen and (max-width: 1415px){
 
+.fit-single-image{
+object-fit: contain;
+height: 19vw;
+}
+}
 @media screen and (max-width: 815px){
 
   .fit-eli{
@@ -75,7 +81,10 @@ width: 11vw;
   .total{
     font-size: 28px!important ;
   }
-
+.fit-single-image{
+  height: 40vmin;
+  margin-left: 40px;
+}
 }
 
 @media screen and (max-width: 805px){
@@ -93,6 +102,7 @@ height: 30vw
 .fit-single-cart-confirm{
 height: 30vw
 }
+
 }
 
 @media screen and (max-width: 667px){
@@ -105,6 +115,7 @@ p{
 .fit-eli{
   height: 40vmin;
 }
+
 }
 
 
@@ -115,6 +126,9 @@ p{
 width: 150%
 }
 
+.fit-single-image{
+  margin-left: 0;
+}
 .fit-image{
   height: 30vh;
 }
