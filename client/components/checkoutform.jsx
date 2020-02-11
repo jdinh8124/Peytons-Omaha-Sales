@@ -58,12 +58,13 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleNameChange(event) {
+    this.setState({ nameError: false });
     this.setState({ name: event.target.value });
   }
 
   handleEmailChange(event) {
+    this.setState({ emailError: false });
     this.setState({ email: event.target.value });
-
   }
 
   handlePhoneChange(event) {
@@ -73,10 +74,12 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ phoneError: false });
     this.setState({ phone: event.target.value });
   }
 
   handlePrimaryShippingChange(event) {
+    this.setState({ addressError: false });
     this.setState({ shippingAddress: event.target.value });
   }
 
@@ -95,6 +98,7 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleCityChange(event) {
+    this.setState({ cityError: false });
     this.setState({ city: event.target.value });
   }
 
@@ -117,6 +121,7 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ creditError: false });
     this.setState({ creditCard: event.target.value });
   }
 
@@ -135,6 +140,7 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ cvcError: false });
     this.setState({ cvc: event.target.value });
   }
 
