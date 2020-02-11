@@ -10,7 +10,7 @@ export default function ConfirmationItem(props) {
   }
 
   return (
-    <div className="card col-12 mb-3 col-lg-7 mb-lg-5" >
+    <div className="card col-12 mb-3 col-lg-7 mb-lg-5 p-2" >
       <div className="row">
         <div className="col-lg-5 d-flex justify-content-center">
           {pictureSize()}
