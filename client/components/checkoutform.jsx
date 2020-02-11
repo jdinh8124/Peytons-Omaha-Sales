@@ -23,9 +23,14 @@ export default class CheckoutForm extends React.Component {
       emailError: false,
       phoneError: false,
       addressError: false,
+      creditNameError: false,
+      stateError: false,
       creditError: false,
+      monthError: false,
+      yearError: false,
       cvcError: false,
-      cityError: false
+      cityError: false,
+      paused: true
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
@@ -58,12 +63,18 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleNameChange(event) {
+    this.setState({
+      nameError: false,
+      paused: false
+    });
     this.setState({ name: event.target.value });
+    this.setState({ paused: true });
+
   }
 
   handleEmailChange(event) {
+    this.setState({ emailError: false });
     this.setState({ email: event.target.value });
-
   }
 
   handlePhoneChange(event) {
@@ -73,10 +84,12 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ phoneError: false });
     this.setState({ phone: event.target.value });
   }
 
   handlePrimaryShippingChange(event) {
+    this.setState({ addressError: false });
     this.setState({ shippingAddress: event.target.value });
   }
 
@@ -95,10 +108,12 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleCityChange(event) {
+    this.setState({ cityError: false });
     this.setState({ city: event.target.value });
   }
 
   handleStateChange(event) {
+    this.setState({ stateError: false });
     this.setState({ state: event.target.value });
   }
 
@@ -107,6 +122,7 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleNameOnCardChange(event) {
+    this.setState({ creditNameError: false });
     this.setState({ creditCardName: event.target.value });
   }
 
@@ -117,14 +133,17 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ creditError: false });
     this.setState({ creditCard: event.target.value });
   }
 
   handleMonthChange(event) {
+    this.setState({ monthError: false });
     this.setState({ month: event.target.value });
   }
 
   handleYearChange(event) {
+    this.setState({ yearError: false });
     this.setState({ year: event.target.value });
   }
 
@@ -135,6 +154,7 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ cvcError: false });
     this.setState({ cvc: event.target.value });
   }
 
@@ -162,7 +182,6 @@ export default class CheckoutForm extends React.Component {
       this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
       issues = true;
-      return;
     } else {
       this.setState(previousState => ({ empty: false }));
     }
@@ -204,7 +223,7 @@ export default class CheckoutForm extends React.Component {
       this.setState(previousState => ({ phoneError: false }));
     }
 
-    if (this.state.creditCard.length < 16) {
+    if (this.state.creditCard.length < 1) {
       this.setState(previousState => ({ creditError: true }));
       issues = true;
     } else {
@@ -216,6 +235,34 @@ export default class CheckoutForm extends React.Component {
       issues = true;
     } else {
       this.setState(previousState => ({ zipError: false }));
+    }
+
+    if (this.state.creditCardName.length < 5) {
+      this.setState(previousState => ({ creditNameError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ creditNameError: false }));
+    }
+
+    if (this.state.state === '') {
+      this.setState(previousState => ({ stateError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ stateError: false }));
+    }
+
+    if (this.state.year === '') {
+      this.setState(previousState => ({ yearError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ yearError: false }));
+    }
+
+    if (this.state.month === '') {
+      this.setState(previousState => ({ monthError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ monthError: false }));
     }
 
     if (this.state.cvc.length < 3) {
@@ -278,7 +325,7 @@ export default class CheckoutForm extends React.Component {
   isNameValid() {
     if (this.state.nameError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Name was too short
         </div>
       );
@@ -288,7 +335,7 @@ export default class CheckoutForm extends React.Component {
   isThereAnEmailError() {
     if (this.state.emailError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Email Was Not Valid
         </div>
       );
@@ -298,7 +345,7 @@ export default class CheckoutForm extends React.Component {
   isThereAPhoneError() {
     if (this.state.phoneError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Phone Number Was invalid
         </div>
       );
@@ -308,7 +355,7 @@ export default class CheckoutForm extends React.Component {
   isAddressValid() {
     if (this.state.addressError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Address was invalid
         </div>
       );
@@ -318,7 +365,7 @@ export default class CheckoutForm extends React.Component {
   isCityValid() {
     if (this.state.cityError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your city was invalid in length
         </div>
       );
@@ -328,7 +375,7 @@ export default class CheckoutForm extends React.Component {
   isCreditValid() {
     if (this.state.creditError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Credit Card Number Was invalid
         </div>
       );
@@ -338,8 +385,38 @@ export default class CheckoutForm extends React.Component {
   isZipValid() {
     if (this.state.zipError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Zip Code was invalid
+        </div>
+      );
+    }
+  }
+
+  isStateValid() {
+    if (this.state.stateError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Please Choose a State!
+        </div>
+      );
+    }
+  }
+
+  isMonthValid() {
+    if (this.state.monthError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Please Choose a Month!
+        </div>
+      );
+    }
+  }
+
+  isYearValid() {
+    if (this.state.yearError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Please Choose a Year!
         </div>
       );
     }
@@ -348,10 +425,32 @@ export default class CheckoutForm extends React.Component {
   iscvcValid() {
     if (this.state.cvcError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           CVC was too short
         </div>
       );
+    }
+  }
+
+  isNameCreditValid() {
+    if (this.state.creditNameError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Your Credit Card Name Information is too short
+        </div>
+      );
+    }
+  }
+
+  buttonToRender() {
+    if (this.state.paused && this.state.name !== '' && this.state.email !== '' && this.state.creditCard !== '' && this.state.phone !== '' && this.state.shippingAddress !== '' &&
+      this.state.city !== '' && this.state.creditCardName !== '' && this.state.state !== '' && this.state.month !== '' && this.state.year !== '' && this.state.cvc !== '' &&
+      this.state.nameError === false && this.state.emailError === false && this.state.phoneError === false && this.state.addressError === false &&
+      this.state.creditError === false && this.state.cvcError === false && this.state.cityError === false
+    ) {
+      return <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
+    } else {
+      return <button readOnly='readonly' onClick={this.onClickPlaceOrder} className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
     }
   }
 
@@ -363,155 +462,177 @@ export default class CheckoutForm extends React.Component {
           <h2>Order Total: ${this.priceTotal()}</h2>
         </div>
         <form onSubmit={this.onClickPlaceOrder} className="col-10 offset-1">
-          <div className="form-group">
-            <label>Name</label>
-            <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
+          <div className="row">
+            <div className="form-group col-xl-4">
+              <label>Name</label>
+              <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
+              {this.isNameValid()}
+            </div>
+            <div className="form-group col-xl-4">
+              <label >Email</label>
+              <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" maxLength="254" />
+              {this.isThereAnEmailError()}
+            </div>
+            <div className="form-group col-xl-3">
+              <label>Phone Number</label>
+              <input id="phone" onChange={this.handlePhoneChange} className="form-control" placeholder="7149090000" maxLength="10" />
+              {this.isThereAPhoneError()}
+            </div>
           </div>
-          {this.isNameValid()}
-          <div className="form-group">
-            <label >Email</label>
-            <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" maxLength="254" />
-          </div>
-          {this.isThereAnEmailError()}
-          <div className="form-group">
-            <label>Phone Number</label>
-            <input id="phone" onChange={this.handlePhoneChange} className="form-control" placeholder="7149090000" maxLength="10"/>
-          </div>
-          {this.isThereAPhoneError()}
+
           <div className="form-group">
             <label>Address</label>
             <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." maxLength="42" />
+            {this.isAddressValid()}
           </div>
-          {this.isAddressValid()}
           <div className="form-group">
             <label>Address 2</label>
             <input onChange={this.handleSecondaryShippingChange} className="form-control" placeholder="Apartment Suite, Studio, or Floor" maxLength="42" />
           </div>
-          <div className="form-group">
-            <label>Five Digit Zip Code</label>
-            <input onChange={this.handleZipChange} id="zip" className="form-control" placeholder="92000" maxLength="5" />
-          </div>
-          {this.isZipValid()}
-          <div className="form-group">
-            <label>City</label>
-            <input onChange={this.handleCityChange} className="form-control" placeholder="City" maxLength="50"/>
-          </div>
-          {this.isCityValid()}
-          <div className="form-group">
-            <label htmlFor="state">State</label>
-            <select onChange={this.handleStateChange} className="form-control" name="state">
-              <option>Choose State...</option>
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District Of Columbia</option>
-              <option value="FL">Flordia</option>
-              <option value="GA">Georgia</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="IA">Kansas</option>
-              <option value="KS">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Country</label>
-            <input onChange={this.handleCountryChange} className="form-control" value="USA" placeholder="USA" maxLength="15" />
+          <div className="row">
+            <div className="form-group col-xl-2">
+              <label>Five Digit Zip Code</label>
+              <input onChange={this.handleZipChange} id="zip" className="form-control" placeholder="92000" maxLength="5" />
+              {this.isZipValid()}
+            </div>
+            <div className="form-group col-xl-3">
+              <label>City</label>
+              <input onChange={this.handleCityChange} className="form-control" placeholder="City" maxLength="50"/>
+              {this.isCityValid()}
+            </div>
+            <div className="form-group col-xl-4">
+              <label htmlFor="state">State</label>
+              <select onChange={this.handleStateChange} className="form-control" name="state">
+                <option>Choose State...</option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FL">Flordia</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="IA">Kansas</option>
+                <option value="KS">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+              </select>
+              {this.isStateValid()}
+            </div>
+            <div className="form-group col-xl-2">
+              <label>Country</label>
+              <input onChange={this.handleCountryChange} className="form-control" value="USA" placeholder="USA" maxLength="15" />
+            </div>
           </div>
           <hr className="my-4"></hr>
           <h3>Payment</h3>
-          <div className="form-group">
-            <label>Name on Card</label>
-            <input type="name" onChange={this.handleNameOnCardChange} className="form-control" aria-describedby="" placeholder="John Doe" />
+          <div className="row">
+            <div className="form-group col-xl-5">
+              <label>Name on Card</label>
+              <input type="name" onChange={this.handleNameOnCardChange} className="form-control" aria-describedby="" placeholder="John Doe" />
+              {this.isNameCreditValid()}
+            </div>
+            <div className="form-group col-xl-5">
+              <label>Card Number</label>
+              <input onChange={this.handleCreditChange} id="creditCard" className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
+              {this.isCreditValid()}
+            </div>
           </div>
-          <div className="form-group">
-            <label>Card Number</label>
-            <input onChange={this.handleCreditChange} id="creditCard" className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
+          <div className="row">
+            <div className="form-group col-xl-3">
+              <label>Month</label>
+              <select onChange={this.handleMonthChange} className="form-control">
+                <option>##</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              {this.isMonthValid()}
+            </div>
+
+            <div className="col-xl-3">
+              <label>Year</label>
+              <select onChange={this.handleYearChange} className="form-control">
+                <option>####</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+              </select>
+              {this.isYearValid()}
+            </div>
+            <div className="col-xl-3">
+
+              <label>CVC</label>
+              <input onChange={this.handleCvcChange} id="cvc" className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
+              {this.iscvcValid()}
+              {this.isFormEmpty()}
+            </div>
           </div>
-          {this.isCreditValid()}
-          <div className="form-group">
-            <label>Month</label>
-            <select onChange={this.handleMonthChange}className="form-control">
-              <option>##</option>
-              <option value="01">01</option>
-              <option value="02">02</option>
-              <option value="03">03</option>
-              <option value="04">04</option>
-              <option value="05">05</option>
-              <option value="06">06</option>
-              <option value="07">07</option>
-              <option value="08">08</option>
-              <option value="09">09</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-            </select>
-            <label>Year</label>
-            <select onChange={this.handleYearChange} className="form-control">
-              <option>####</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-              <option value="2026">2026</option>
-            </select>
-            <label>CVC</label>
-            <input onChange={this.handleCvcChange} id="cvc" className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
-          </div>
-          {this.iscvcValid()}
-          {this.isFormEmpty()}
-          <hr className="my-4"></hr>
-          <input className="form-check-input" type="checkbox" required />
-          <label>
+          <div >
+            <hr className="my-4"></hr>
+            <input className="form-check-input" type="checkbox" required />
+            <label>
             I acknowledge that this is a demo application, and the information above is not my genuine financial or personal information.
-          </label>
-          <hr className="my-4"></hr>
-          <div className="mt-5 mb-5">
-            <h3 className="pointer d-inline small-checkout mr-3" onClick={this.backToMainShop}>{'<Continue Shopping'}</h3>
-            <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>
+            </label>
+            <hr className="my-4"></hr>
+            <div className="mt-5 mb-5">
+              <h3 className="pointer d-inline small-checkout mr-3" onClick={this.backToMainShop}>{'<Continue Shopping'}</h3>
+              {this.buttonToRender()}
+            </div>
           </div>
+
         </form>
       </>
     );

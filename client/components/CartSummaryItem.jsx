@@ -52,7 +52,7 @@ export default class CartSummaryItem extends React.Component {
       <>
         {this.openModal()}
         <div className="col-8 card  col-lg-7 mb-2 mb-lg-5" >
-          <div className="row">
+          <div className="row p-3">
             <div className="col-lg-4 offset-2 offset-sm-3  offset-lg-0">
               {this.pictureSize()}
             </div>
