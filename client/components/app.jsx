@@ -25,6 +25,7 @@ export default class App extends React.Component {
     this.placeOrder = this.placeOrder.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.closeIntroModal = this.closeIntroModal.bind(this);
+    this.deleteAllItems = this.deleteAllItems.bind(this);
   }
 
   componentDidMount() {
@@ -152,6 +153,28 @@ export default class App extends React.Component {
       });
   }
 
+  deleteAllItems(products) {
+    products.ids.map(ids =>
+
+      fetch('/api/cart', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cartItemId: ids })
+      })
+
+    );
+
+    const newArray = [...this.state.cart];
+    const indexMatch = newArray.findIndex(items =>
+      items.productId === products.productId);
+    newArray.splice(indexMatch, 1);
+    this.setState(previousState => ({
+      cart: newArray
+    }));
+  }
+
   deleteItem(product) {
     fetch('/api/cart', {
       method: 'DELETE',
@@ -164,6 +187,7 @@ export default class App extends React.Component {
         const newArray = [...this.state.cart];
         const indexMatch = newArray.findIndex(items =>
           items.ids[0] === product);
+
         if (newArray[indexMatch].quantity === 1) {
           newArray.splice(indexMatch, 1);
           this.setState(previousState => ({
@@ -197,7 +221,7 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       view = <ProductList setView={this.setView} />;
     } else if (this.state.view.name === 'cart') {
-      view = <CartSummary setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem}/>;
+      view = <CartSummary setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem} deleteAll={this.deleteAllItems} />;
     } else if (this.state.view.name === 'checkout') {
       view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
     } else if (this.state.view.name === 'confirmation') {

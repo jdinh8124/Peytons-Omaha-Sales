@@ -9,6 +9,7 @@ export default class CartSummaryItem extends React.Component {
       showModal: false
     };
     this.deleteItems = this.deleteItems.bind(this);
+    this.deleteAllItems = this.deleteAllItems.bind(this);
     this.addItems = this.addItems.bind(this);
     this.setModal = this.setModal.bind(this);
   }
@@ -43,6 +44,14 @@ export default class CartSummaryItem extends React.Component {
     }
   }
 
+  deleteAllItems(event) {
+    const products = {
+      productId: this.props.productId,
+      ids: this.props.ids
+    };
+    this.props.deleteAll(products);
+  }
+
   addItems() {
     this.props.add({ productId: this.props.productId });
   }
@@ -65,6 +74,8 @@ export default class CartSummaryItem extends React.Component {
                 {this.props.quantity}
                 <button onClick={this.addItems}className="m-1"><i className="fas fa-plus-square"></i></button>
               </div>
+              <button type="button" onClick={this.deleteAllItems} className="btn btn-danger mt-2 ">Delete</button>
+
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ export default function CartSummary(props) {
   function cartItems() {
     if (props.items.length > 0) {
       const listOfCartItems = props.items.map(item => {
-        return <CartSummaryItem productId={item.productId} ids={item.ids} add={props.add} quantity={item.quantity} cartItemId={item.cartItemId} delete={props.delete}name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
+        return <CartSummaryItem productId={item.productId} ids={item.ids} add={props.add} quantity={item.quantity} cartItemId={item.cartItemId} delete={props.delete} deleteAll={props.deleteAll} name={item.name} shortDescription={item.shortDescription} price={item.price} img={item.image} key={item.cartItemId}/>;
       });
       return listOfCartItems;
     } else {
