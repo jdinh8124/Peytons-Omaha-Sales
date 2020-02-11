@@ -49,6 +49,7 @@ export default class CheckoutForm extends React.Component {
     this.handleCvcChange = this.handleCvcChange.bind(this);
     this.setInputFilter = this.setInputFilter.bind(this);
     this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.checkForErrors = this.checkForErrors.bind(this);
 
   }
 
@@ -176,6 +177,7 @@ export default class CheckoutForm extends React.Component {
   }
 
   nameErrorCheck(myString, issues) {
+    myString = this.state.name;
     const noSpaceText = myString.replace(/ /g, '');
     const textLength = noSpaceText.length;
     if (textLength < 5) {
@@ -327,9 +329,27 @@ export default class CheckoutForm extends React.Component {
     }
   }
 
+  checkForErrors() {
+    this.nameErrorCheck(this.state.name);
+    this.emailErrorCheck(this.state.email);
+    this.numberErrorCheck(this.state.phone.length);
+    this.addressErrorCheck();
+    this.zipErrorCheck();
+    this.cityErrorCheck();
+    this.stateErrorCheck();
+    this.nameCreditCheck();
+    this.creditCheck();
+    this.yearCheck();
+    this.monthCheck();
+    this.cvcCheck();
+  }
+
   onClickPlaceOrder() {
     let issues = false;
     event.preventDefault();
+
+    this.checkForErrors();
+
     if (this.state.name === '' || this.state.email === '' || this.state.creditCard === '' || this.state.phone === '' || this.state.shippingAddress === '' ||
       this.stat.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
@@ -337,20 +357,6 @@ export default class CheckoutForm extends React.Component {
     } else {
       this.setState(previousState => ({ empty: false }));
     }
-
-    this.nameErrorheck(this.state.name, issues);
-    this.emailErrorCheck(this.state.email, issues);
-    this.numberErrorCheck(this.state.phone.length, issues);
-    this.addressErrorCheck(issues);
-    this.zipErrorCheck(issues);
-    this.cityErrorCheck(issues);
-    this.stateErrorCheck(issues);
-    this.nameCreditCheck(issues);
-    this.creditCheck(issues);
-    this.yearCheck(issues);
-    this.monthCheck(issues);
-    this.cvcCheck(issues);
-
     if (issues) {
       return;
     }
@@ -517,9 +523,11 @@ export default class CheckoutForm extends React.Component {
       this.state.nameError === false && this.state.emailError === false && this.state.phoneError === false && this.state.addressError === false &&
       this.state.creditError === false && this.state.cvcError === false && this.state.cityError === false
     ) {
-      return <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
+      return <button onClick={this.onClickPlaceOrder} className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
     } else {
-      return <button readOnly='readonly' onClick={this.onClickPlaceOrder} className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
+      return (
+        <button disabled={true} className="btn btn-primary offset-lg-5 offset-sm-1 d-inline" ><div onClick={this.checkForErrors}>Submit</div></button>
+      );
     }
   }
 
@@ -686,7 +694,6 @@ export default class CheckoutForm extends React.Component {
               <label>CVC</label>
               <input onChange={this.handleCvcChange} id="cvc" onBlur={() => this.cvcCheck()} className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
               {this.iscvcValid()}
-              {this.isFormEmpty()}
             </div>
           </div>
           <div >
@@ -701,7 +708,6 @@ export default class CheckoutForm extends React.Component {
               {this.buttonToRender()}
             </div>
           </div>
-
         </form>
       </>
     );
