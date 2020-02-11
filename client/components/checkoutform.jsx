@@ -390,7 +390,7 @@ export default class CheckoutForm extends React.Component {
     this.checkForErrors();
 
     if (this.state.name === '' || this.state.email === '' || this.state.creditCard === '' || this.state.phone === '' || this.state.shippingAddress === '' ||
-      this.stat.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
+      this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
       issues = true;
     } else {
