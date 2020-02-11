@@ -74,8 +74,7 @@ export default class CartSummaryItem extends React.Component {
                 {this.props.quantity}
                 <button onClick={this.addItems}className="m-1"><i className="fas fa-plus-square"></i></button>
               </div>
-              <button type="button" onClick={this.deleteAllItems} className="btn btn-danger mt-2 ">Delete</button>
-
+              <button type="button" onClick={this.deleteAllItems} className="btn btn-danger offset-3 offset-sm-5 offset-md-4 offset-lg-0  mt-3 ">Delete</button>
             </div>
           </div>
         </div>
