@@ -361,6 +361,15 @@ export default class CheckoutForm extends React.Component {
     }
   }
 
+  buttonToRender() {
+    if (this.state.name !== '' || this.state.email !== '' || this.state.creditCard !== '' || this.state.phone !== '' || this.state.shippingAddress !== '' ||
+      this.state.city !== '' || this.state.creditCardName !== '' || this.state.state !== '' || this.state.month !== '' || this.state.year !== '' || this.state.cvc !== '') {
+      return <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
+    } else {
+      return <button disabled="false" className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
+    }
+  }
+
   render() {
     return (
       <>
@@ -532,7 +541,7 @@ export default class CheckoutForm extends React.Component {
             <hr className="my-4"></hr>
             <div className="mt-5 mb-5">
               <h3 className="pointer d-inline small-checkout mr-3" onClick={this.backToMainShop}>{'<Continue Shopping'}</h3>
-              <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>
+              {this.buttonToRender()}
             </div>
           </div>
 
