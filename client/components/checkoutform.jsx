@@ -23,9 +23,14 @@ export default class CheckoutForm extends React.Component {
       emailError: false,
       phoneError: false,
       addressError: false,
+      creditNameError: false,
+      stateError: false,
       creditError: false,
+      monthError: false,
+      yearError: false,
       cvcError: false,
-      cityError: false
+      cityError: false,
+      paused: true
     };
     this.backToMainShop = this.backToMainShop.bind(this);
     this.onClickPlaceOrder = this.onClickPlaceOrder.bind(this);
@@ -58,8 +63,13 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleNameChange(event) {
-    this.setState({ nameError: false });
+    this.setState({
+      nameError: false,
+      paused: false
+    });
     this.setState({ name: event.target.value });
+    this.setState({ paused: true });
+
   }
 
   handleEmailChange(event) {
@@ -168,7 +178,6 @@ export default class CheckoutForm extends React.Component {
       this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
       issues = true;
-      return;
     } else {
       this.setState(previousState => ({ empty: false }));
     }
@@ -222,6 +231,34 @@ export default class CheckoutForm extends React.Component {
       issues = true;
     } else {
       this.setState(previousState => ({ zipError: false }));
+    }
+
+    if (this.state.creditCardName.length < 5) {
+      this.setState(previousState => ({ creditNameError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ creditNameError: false }));
+    }
+
+    if (this.state.state === '') {
+      this.setState(previousState => ({ stateError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ stateError: false }));
+    }
+
+    if (this.state.year === '') {
+      this.setState(previousState => ({ yearError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ yearError: false }));
+    }
+
+    if (this.state.month === '') {
+      this.setState(previousState => ({ monthError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ monthError: false }));
     }
 
     if (this.state.cvc.length < 3) {
@@ -284,7 +321,7 @@ export default class CheckoutForm extends React.Component {
   isNameValid() {
     if (this.state.nameError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Name was too short
         </div>
       );
@@ -294,7 +331,7 @@ export default class CheckoutForm extends React.Component {
   isThereAnEmailError() {
     if (this.state.emailError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Email Was Not Valid
         </div>
       );
@@ -304,7 +341,7 @@ export default class CheckoutForm extends React.Component {
   isThereAPhoneError() {
     if (this.state.phoneError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Phone Number Was invalid
         </div>
       );
@@ -314,7 +351,7 @@ export default class CheckoutForm extends React.Component {
   isAddressValid() {
     if (this.state.addressError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Address was invalid
         </div>
       );
@@ -324,7 +361,7 @@ export default class CheckoutForm extends React.Component {
   isCityValid() {
     if (this.state.cityError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your city was invalid in length
         </div>
       );
@@ -334,7 +371,7 @@ export default class CheckoutForm extends React.Component {
   isCreditValid() {
     if (this.state.creditError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Credit Card Number Was invalid
         </div>
       );
@@ -344,8 +381,38 @@ export default class CheckoutForm extends React.Component {
   isZipValid() {
     if (this.state.zipError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           Your Zip Code was invalid
+        </div>
+      );
+    }
+  }
+
+  isStateValid() {
+    if (this.state.stateError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Please Choose a State!
+        </div>
+      );
+    }
+  }
+
+  isMonthValid() {
+    if (this.state.monthError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Please Choose a Month!
+        </div>
+      );
+    }
+  }
+
+  isYearValid() {
+    if (this.state.yearError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Please Choose a Year!
         </div>
       );
     }
@@ -354,19 +421,32 @@ export default class CheckoutForm extends React.Component {
   iscvcValid() {
     if (this.state.cvcError) {
       return (
-        <div className="invalid-feedback showError mb-3 warningDiv">
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
           CVC was too short
         </div>
       );
     }
   }
 
+  isNameCreditValid() {
+    if (this.state.creditNameError) {
+      return (
+        <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
+          Your Credit Card Name Information is too short
+        </div>
+      );
+    }
+  }
+
   buttonToRender() {
-    if (this.state.name !== '' || this.state.email !== '' || this.state.creditCard !== '' || this.state.phone !== '' || this.state.shippingAddress !== '' ||
-      this.state.city !== '' || this.state.creditCardName !== '' || this.state.state !== '' || this.state.month !== '' || this.state.year !== '' || this.state.cvc !== '') {
+    if (this.state.paused && this.state.name !== '' && this.state.email !== '' && this.state.creditCard !== '' && this.state.phone !== '' && this.state.shippingAddress !== '' &&
+      this.state.city !== '' && this.state.creditCardName !== '' && this.state.state !== '' && this.state.month !== '' && this.state.year !== '' && this.state.cvc !== '' &&
+      this.state.nameError === false && this.state.emailError === false && this.state.phoneError === false && this.state.addressError === false &&
+      this.state.creditError === false && this.state.cvcError === false && this.state.cityError === false
+    ) {
       return <button className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
     } else {
-      return <button disabled="false" className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
+      return <button readOnly='readonly' onClick={this.onClickPlaceOrder} className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
     }
   }
 
@@ -472,6 +552,7 @@ export default class CheckoutForm extends React.Component {
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
               </select>
+              {this.isStateValid()}
             </div>
             <div className="form-group col-xl-2">
               <label>Country</label>
@@ -484,6 +565,7 @@ export default class CheckoutForm extends React.Component {
             <div className="form-group col-xl-5">
               <label>Name on Card</label>
               <input type="name" onChange={this.handleNameOnCardChange} className="form-control" aria-describedby="" placeholder="John Doe" />
+              {this.isNameCreditValid()}
             </div>
             <div className="form-group col-xl-5">
               <label>Card Number</label>
@@ -509,6 +591,7 @@ export default class CheckoutForm extends React.Component {
                 <option value="11">11</option>
                 <option value="12">12</option>
               </select>
+              {this.isMonthValid()}
             </div>
 
             <div className="col-xl-3">
@@ -523,6 +606,7 @@ export default class CheckoutForm extends React.Component {
                 <option value="2025">2025</option>
                 <option value="2026">2026</option>
               </select>
+              {this.isYearValid()}
             </div>
             <div className="col-xl-3">
 
