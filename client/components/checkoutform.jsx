@@ -113,6 +113,7 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleStateChange(event) {
+    this.setState({ stateError: false });
     this.setState({ state: event.target.value });
   }
 
@@ -121,6 +122,7 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleNameOnCardChange(event) {
+    this.setState({ creditNameError: false });
     this.setState({ creditCardName: event.target.value });
   }
 
@@ -136,10 +138,12 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleMonthChange(event) {
+    this.setState({ monthError: false });
     this.setState({ month: event.target.value });
   }
 
   handleYearChange(event) {
+    this.setState({ yearError: false });
     this.setState({ year: event.target.value });
   }
 
@@ -219,7 +223,7 @@ export default class CheckoutForm extends React.Component {
       this.setState(previousState => ({ phoneError: false }));
     }
 
-    if (this.state.creditCard.length < 16) {
+    if (this.state.creditCard.length < 1) {
       this.setState(previousState => ({ creditError: true }));
       issues = true;
     } else {
