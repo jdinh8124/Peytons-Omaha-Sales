@@ -175,112 +175,181 @@ export default class CheckoutForm extends React.Component {
     });
   }
 
+  nameErrorCheck(myString, issues) {
+    const noSpaceText = myString.replace(/ /g, '');
+    const textLength = noSpaceText.length;
+    if (textLength < 5) {
+      this.setState(previousState => ({ nameError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ nameError: false }));
+    }
+  }
+
+  emailErrorCheck(emailString, issues) {
+    const re = /\S+@\S+\.\S+/;
+    const noSpaceEmail = emailString.replace(/ /g, '');
+    const emailTextLength = noSpaceEmail.length;
+    if (!re.test(this.state.email) || emailTextLength < 6) {
+      this.setState(previousState => ({ emailError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ emailError: false }));
+    }
+  }
+
+  numberErrorCheck(phone, issues) {
+    if (phone < 10) {
+      this.setState(previousState => ({ phoneError: true }));
+      issues = true;
+    } else {
+      this.setState(previousState => ({ phoneError: false }));
+    }
+  }
+
+  addressErrorCheck(issues) {
+    const address = this.state.shippingAddress;
+    const noSpace = address.replace(/ /g, '');
+    const addressLength = noSpace.length;
+    if (addressLength < 6) {
+      this.setState(previousState => ({ addressError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ addressError: false }));
+    }
+  }
+
+  zipErrorCheck(issues) {
+    if (this.state.zip.length < 5) {
+      this.setState(previousState => ({ zipError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ zipError: false }));
+    }
+  }
+
+  cityErrorCheck(issues) {
+    const cityString = this.state.city;
+    const noSpaceCity = cityString.replace(/ /g, '');
+    const cityTextLength = noSpaceCity.length;
+    if (cityTextLength < 3) {
+      this.setState(previousState => ({ cityError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ cityError: false }));
+    }
+  }
+
+  stateErrorCheck(issues) {
+    if (this.state.state === '') {
+      this.setState(previousState => ({ stateError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ stateError: false }));
+    }
+  }
+
+  nameCreditCheck(issues) {
+    if (this.state.creditCardName.length < 5) {
+      this.setState(previousState => ({ creditNameError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ creditNameError: false }));
+    }
+  }
+
+  creditCheck(issues) {
+    if (this.state.creditCard.length < 16) {
+      this.setState(previousState => ({ creditError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ creditError: false }));
+    }
+  }
+
+  monthCheck(issues) {
+    if (this.state.month === '') {
+      this.setState(previousState => ({ monthError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ monthError: false }));
+    }
+  }
+
+  yearCheck(issues) {
+    if (this.state.year === '') {
+      this.setState(previousState => ({ yearError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ yearError: false }));
+    }
+  }
+
+  cvcCheck(issues) {
+    if (this.state.cvc.length < 3) {
+      this.setState(previousState => ({ cvcError: true }));
+      if (issues || issues === false) {
+        issues = true;
+        return issues;
+      }
+    } else {
+      this.setState(previousState => ({ cvcError: false }));
+    }
+  }
+
   onClickPlaceOrder() {
     let issues = false;
     event.preventDefault();
     if (this.state.name === '' || this.state.email === '' || this.state.creditCard === '' || this.state.phone === '' || this.state.shippingAddress === '' ||
-      this.state.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
+      this.stat.city === '' || this.state.creditCardName === '' || this.state.state === '' || this.state.month === '' || this.state.year === '' || this.state.cvc === '') {
       this.setState(previousState => ({ empty: true }));
       issues = true;
     } else {
       this.setState(previousState => ({ empty: false }));
     }
 
-    const myString = this.state.name;
-    const noSpaceText = myString.replace(/ /g, '');
-    const textLength = noSpaceText.length;
-    if (textLength < 5) {
-      this.setState(previousState => ({ nameError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ nameError: false }));
-    }
-
-    const address = this.state.shippingAddress;
-    const noSpace = address.replace(/ /g, '');
-    const addressLength = noSpace.length;
-    if (addressLength < 6) {
-      this.setState(previousState => ({ addressError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ addressError: false }));
-    }
-
-    const re = /\S+@\S+\.\S+/;
-    const emailString = this.state.email;
-    const noSpaceEmail = emailString.replace(/ /g, '');
-    const emailTextLength = noSpaceEmail.length;
-    if (!re.test(this.state.email) || emailTextLength < 6) {
-      this.setState(previousState => ({ emailError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ emailError: false }));
-    }
-    if (this.state.phone.length < 10) {
-      this.setState(previousState => ({ phoneError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ phoneError: false }));
-    }
-
-    if (this.state.creditCard.length < 1) {
-      this.setState(previousState => ({ creditError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ creditError: false }));
-    }
-
-    if (this.state.zip.length < 5) {
-      this.setState(previousState => ({ zipError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ zipError: false }));
-    }
-
-    if (this.state.creditCardName.length < 5) {
-      this.setState(previousState => ({ creditNameError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ creditNameError: false }));
-    }
-
-    if (this.state.state === '') {
-      this.setState(previousState => ({ stateError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ stateError: false }));
-    }
-
-    if (this.state.year === '') {
-      this.setState(previousState => ({ yearError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ yearError: false }));
-    }
-
-    if (this.state.month === '') {
-      this.setState(previousState => ({ monthError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ monthError: false }));
-    }
-
-    if (this.state.cvc.length < 3) {
-      this.setState(previousState => ({ cvcError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ cvcError: false }));
-    }
-
-    const cityString = this.state.city;
-    const noSpaceCity = cityString.replace(/ /g, '');
-    const cityTextLength = noSpaceCity.length;
-    if (cityTextLength < 3) {
-      this.setState(previousState => ({ cityError: true }));
-      issues = true;
-    } else {
-      this.setState(previousState => ({ cityError: false }));
-    }
+    this.nameErrorheck(this.state.name, issues);
+    this.emailErrorCheck(this.state.email, issues);
+    this.numberErrorCheck(this.state.phone.length, issues);
+    this.addressErrorCheck(issues);
+    this.zipErrorCheck(issues);
+    this.cityErrorCheck(issues);
+    this.stateErrorCheck(issues);
+    this.nameCreditCheck(issues);
+    this.creditCheck(issues);
+    this.yearCheck(issues);
+    this.monthCheck(issues);
+    this.cvcCheck(issues);
 
     if (issues) {
       return;
@@ -346,7 +415,7 @@ export default class CheckoutForm extends React.Component {
     if (this.state.phoneError) {
       return (
         <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
-          Your Phone Number Was invalid
+          Your Phone Number Was Too Short
         </div>
       );
     }
@@ -376,7 +445,7 @@ export default class CheckoutForm extends React.Component {
     if (this.state.creditError) {
       return (
         <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
-          Your Credit Card Number Was invalid
+          Your Credit Card Number Was Too Short!
         </div>
       );
     }
@@ -386,7 +455,7 @@ export default class CheckoutForm extends React.Component {
     if (this.state.zipError) {
       return (
         <div className="invalid-feedback showError mb-3 mt-1 warningDiv">
-          Your Zip Code was invalid
+          Your Zip Code was too short!
         </div>
       );
     }
@@ -465,24 +534,24 @@ export default class CheckoutForm extends React.Component {
           <div className="row">
             <div className="form-group col-xl-4">
               <label>Name</label>
-              <input onChange={this.handleNameChange} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
+              <input onChange={this.handleNameChange} onBlur={() => this.nameErrorCheck(this.state.name)} type="name" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" maxLength="65"/>
               {this.isNameValid()}
             </div>
             <div className="form-group col-xl-4">
               <label >Email</label>
-              <input onChange={this.handleEmailChange} className="form-control" placeholder="Email" maxLength="254" />
+              <input onChange={this.handleEmailChange} onBlur={() => this.emailErrorCheck(this.state.email)} className="form-control" placeholder="Email" maxLength="254" />
               {this.isThereAnEmailError()}
             </div>
             <div className="form-group col-xl-3">
               <label>Phone Number</label>
-              <input id="phone" onChange={this.handlePhoneChange} className="form-control" placeholder="7149090000" maxLength="10" />
+              <input id="phone" onChange={this.handlePhoneChange} onBlur={() => this.numberErrorCheck(this.state.phone)} className="form-control" placeholder="7149090000" maxLength="10" />
               {this.isThereAPhoneError()}
             </div>
           </div>
 
           <div className="form-group">
             <label>Address</label>
-            <input onChange={this.handlePrimaryShippingChange} className="form-control" placeholder="9200 Irvine St." maxLength="42" />
+            <input onChange={this.handlePrimaryShippingChange} onBlur={() => this.addressErrorCheck()} className="form-control" placeholder="9200 Irvine St." maxLength="42" />
             {this.isAddressValid()}
           </div>
           <div className="form-group">
@@ -492,17 +561,17 @@ export default class CheckoutForm extends React.Component {
           <div className="row">
             <div className="form-group col-xl-2">
               <label>Five Digit Zip Code</label>
-              <input onChange={this.handleZipChange} id="zip" className="form-control" placeholder="92000" maxLength="5" />
+              <input onChange={this.handleZipChange} onBlur={() => this.zipErrorCheck()} id="zip" className="form-control" placeholder="92000" maxLength="5" />
               {this.isZipValid()}
             </div>
             <div className="form-group col-xl-3">
               <label>City</label>
-              <input onChange={this.handleCityChange} className="form-control" placeholder="City" maxLength="50"/>
+              <input onChange={this.handleCityChange} onBlur={() => this.cityErrorCheck()} className="form-control" placeholder="City" maxLength="50"/>
               {this.isCityValid()}
             </div>
             <div className="form-group col-xl-4">
               <label htmlFor="state">State</label>
-              <select onChange={this.handleStateChange} className="form-control" name="state">
+              <select onChange={this.handleStateChange} onBlur={() => this.stateErrorCheck()} className="form-control" name="state">
                 <option>Choose State...</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -568,19 +637,19 @@ export default class CheckoutForm extends React.Component {
           <div className="row">
             <div className="form-group col-xl-5">
               <label>Name on Card</label>
-              <input type="name" onChange={this.handleNameOnCardChange} className="form-control" aria-describedby="" placeholder="John Doe" />
+              <input type="name" onChange={this.handleNameOnCardChange} onBlur={() => this.nameCreditCheck()} className="form-control" aria-describedby="" placeholder="John Doe" />
               {this.isNameCreditValid()}
             </div>
             <div className="form-group col-xl-5">
               <label>Card Number</label>
-              <input onChange={this.handleCreditChange} id="creditCard" className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
+              <input onChange={this.handleCreditChange} id="creditCard" onBlur={() => this.creditCheck()} className="form-control" aria-describedby="card number" placeholder="12345668495" maxLength="16"/>
               {this.isCreditValid()}
             </div>
           </div>
           <div className="row">
             <div className="form-group col-xl-3">
               <label>Month</label>
-              <select onChange={this.handleMonthChange} className="form-control">
+              <select onChange={this.handleMonthChange} onBlur={() => this.monthCheck()} className="form-control">
                 <option>##</option>
                 <option value="01">01</option>
                 <option value="02">02</option>
@@ -600,7 +669,7 @@ export default class CheckoutForm extends React.Component {
 
             <div className="col-xl-3">
               <label>Year</label>
-              <select onChange={this.handleYearChange} className="form-control">
+              <select onChange={this.handleYearChange} onBlur={() => this.yearCheck()} className="form-control">
                 <option>####</option>
                 <option value="2020">2020</option>
                 <option value="2021">2021</option>
@@ -615,7 +684,7 @@ export default class CheckoutForm extends React.Component {
             <div className="col-xl-3">
 
               <label>CVC</label>
-              <input onChange={this.handleCvcChange} id="cvc" className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
+              <input onChange={this.handleCvcChange} id="cvc" onBlur={() => this.cvcCheck()} className="form-control" aria-describedby="card number" placeholder="###" maxLength="3" />
               {this.iscvcValid()}
               {this.isFormEmpty()}
             </div>
