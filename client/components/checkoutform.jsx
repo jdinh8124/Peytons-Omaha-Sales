@@ -69,13 +69,17 @@ export default class CheckoutForm extends React.Component {
       paused: false
     });
     this.setState({ name: event.target.value });
-    this.setState({ paused: true });
-
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleEmailChange(event) {
-    this.setState({ emailError: false });
+    this.setState({ emailError: false, paused: false });
     this.setState({ email: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handlePhoneChange(event) {
@@ -85,17 +89,27 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
-    this.setState({ phoneError: false });
+    this.setState({ phoneError: false, paused: false });
     this.setState({ phone: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handlePrimaryShippingChange(event) {
-    this.setState({ addressError: false });
+    this.setState({ addressError: false, paused: false });
     this.setState({ shippingAddress: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleSecondaryShippingChange(event) {
+    this.setState({ paused: false });
     this.setState({ shippingAddressTwo: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleZipChange(event) {
@@ -105,17 +119,27 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
+    this.setState({ zipError: false, paused: false });
     this.setState({ zip: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleCityChange(event) {
-    this.setState({ cityError: false });
+    this.setState({ cityError: false, paused: false });
     this.setState({ city: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleStateChange(event) {
-    this.setState({ stateError: false });
+    this.setState({ stateError: false, paused: false });
     this.setState({ state: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleCountryChange(event) {
@@ -123,8 +147,11 @@ export default class CheckoutForm extends React.Component {
   }
 
   handleNameOnCardChange(event) {
-    this.setState({ creditNameError: false });
+    this.setState({ creditNameError: false, paused: false });
     this.setState({ creditCardName: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleCreditChange(event) {
@@ -134,18 +161,27 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
-    this.setState({ creditError: false });
+    this.setState({ creditError: false, paused: false });
     this.setState({ creditCard: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleMonthChange(event) {
-    this.setState({ monthError: false });
+    this.setState({ monthError: false, paused: false });
     this.setState({ month: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleYearChange(event) {
-    this.setState({ yearError: false });
+    this.setState({ yearError: false, paused: false });
     this.setState({ year: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   handleCvcChange(event) {
@@ -155,8 +191,11 @@ export default class CheckoutForm extends React.Component {
     if (!Number(event.target.value)) {
       return;
     }
-    this.setState({ cvcError: false });
+    this.setState({ cvcError: false, paused: false });
     this.setState({ cvc: event.target.value });
+    setTimeout(function () {
+      this.setState({ paused: true });
+    }.bind(this), 1000);
   }
 
   setInputFilter(textbox, inputFilter) {
@@ -518,10 +557,10 @@ export default class CheckoutForm extends React.Component {
   }
 
   buttonToRender() {
-    if (this.state.paused && this.state.name !== '' && this.state.email !== '' && this.state.creditCard !== '' && this.state.phone !== '' && this.state.shippingAddress !== '' &&
-      this.state.city !== '' && this.state.creditCardName !== '' && this.state.state !== '' && this.state.month !== '' && this.state.year !== '' && this.state.cvc !== '' &&
+    if (this.state.paused && this.state.name !== '' && this.state.email !== '' && this.state.creditCard.length === 16 && this.state.phone !== '' && this.state.shippingAddress !== '' &&
+      this.state.city !== '' && this.state.creditCardName !== '' && this.state.state !== '' && this.state.month !== '' && this.state.year !== '' && this.state.cvc.length === 3 &&
       this.state.nameError === false && this.state.emailError === false && this.state.phoneError === false && this.state.addressError === false &&
-      this.state.creditError === false && this.state.cvcError === false && this.state.cityError === false
+      this.state.creditError === false && this.state.cvcError === false && this.state.cityError === false && this.state.zipError === false
     ) {
       return <button onClick={this.onClickPlaceOrder} className="btn btn-primary offset-lg-5 offset-sm-1 d-inline ">Submit</button>;
     } else {
