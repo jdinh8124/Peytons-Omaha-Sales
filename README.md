@@ -9,8 +9,8 @@
 A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 
 ## Languages Used
-- React
-- JavaScript
+- React.js
+- JavaScript (ES5 & ES6)
 - NodeJS
 - PostgreSQL
 - HTML5
