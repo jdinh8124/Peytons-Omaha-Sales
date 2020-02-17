@@ -6,6 +6,11 @@ import CartSummary from './cartsummary';
 import CheckoutForm from './checkoutform';
 import IntroModal from './intromodal';
 import Confirmation from './confirmation';
+import {
+  Switch,
+  Route,
+  BrowserRouter as Router
+} from 'react-router-dom';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -216,28 +221,20 @@ export default class App extends React.Component {
     return quantityGroup;
   }
 
-  bodyToRender() {
-    let view;
-    if (this.state.view.name === 'catalog') {
-      view = <ProductList setView={this.setView} />;
-    } else if (this.state.view.name === 'cart') {
-      view = <CartSummary setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem} deleteAll={this.deleteAllItems} />;
-    } else if (this.state.view.name === 'checkout') {
-      view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
-    } else if (this.state.view.name === 'confirmation') {
-      view = <Confirmation setView={this.setViewFromConfirm} items={this.state.previousCart} />;
-    } else {
-      view = <ProductDetails setView={this.setView} view={this.state.view.params} button={this.addToCart}/>;
-    }
-    return view;
-  }
-
   render() {
     return (
       <div>
         {this.showIntroModal()}
         <Header name="Peyton's Omaha Sales" cart={this.cartItemsCount()} onClick={this.setView}/>
-        {this.bodyToRender()}
+        <Router >
+          <Switch>
+            <Route exact path="/" render={props => <ProductList {...props} setView={this.setView} />} />;
+            <Route exact path="/cartSummary" render={props => <CartSummary {...props} setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem} deleteAll={this.deleteAllItems} />} />;
+            <Route exact path="/checkoutForm" render={props => <CheckoutForm {...props} placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />} />;
+            <Route exact path="/confirmation" render={props => <Confirmation {...props} setView={this.setViewFromConfirm} items={this.state.previousCart} />} />;
+            <Route exact path="/productDetails" render={props => <ProductDetails {...props} setView={this.setView} view={this.state.view.params} button={this.addToCart} />} />;
+          </Switch>
+        </Router>
       </div>
     );
   }

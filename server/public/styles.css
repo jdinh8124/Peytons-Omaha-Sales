@@ -1,4 +1,12 @@
-
+ a {
+    color: black;
+  }
+a:hover
+  {
+    text-decoration:none;
+    cursor:pointer;
+    color: black;
+   }
 .fit-image{
 object-fit: contain;
 height: 20vh;
