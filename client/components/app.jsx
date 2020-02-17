@@ -225,8 +225,8 @@ export default class App extends React.Component {
     return (
       <div>
         {this.showIntroModal()}
-        <Header name="Peyton's Omaha Sales" cart={this.cartItemsCount()} onClick={this.setView}/>
         <Router >
+          <Header name="Peyton's Omaha Sales" cart={this.cartItemsCount()} onClick={this.setView}/>
           <Switch>
             <Route exact path="/" render={props => <ProductList {...props} setView={this.setView} />} />;
             <Route exact path="/cartSummary" render={props => <CartSummary {...props} setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem} deleteAll={this.deleteAllItems} />} />;
