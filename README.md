@@ -8,13 +8,14 @@
 ## Summary
 A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 
-## Languages Used
+## Languages & Technologies Used
 - React.js
 - JavaScript (ES5 & ES6)
 - NodeJS
 - PostgreSQL
 - HTML5
 - CSS3
+- Express
 
 ## Features
 - Users can see a list of autographed jerseys listed for sale
