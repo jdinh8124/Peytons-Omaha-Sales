@@ -1,5 +1,6 @@
 import React from 'react';
 import AddCartModal from './addcartmodal';
+import { Link } from 'react-router-dom';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -58,7 +59,9 @@ export default class ProductDetails extends React.Component {
         <>
           {modal}
           <div className="card  m-md-5 col-sm-10 offset-sm-1 offset-md-0 col-md-11" >
-            <div className="pointer mb-3" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
+            <Link to="/">
+              <div className="pointer mb-3" onClick={this.changeBackToCat}> {'< Back to Catalog'}</div>
+            </Link>
             <div className="row">
               <div className="col-4 col-lg-3 offset-lg-1 mr-1">
                 <img src={this.state.product.image} className={this.checkImgSize()} alt="Image of Product" />
