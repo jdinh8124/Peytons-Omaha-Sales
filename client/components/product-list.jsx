@@ -11,12 +11,10 @@ export default function ProductLists(props) {
   // functioncomponentDidMount() {
   //   getProducts();
   // }
-  const [products, setProducts] = useState(null);
-  const elements = null;
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getProducts();
-
   });
 
   function getProducts() {
@@ -30,6 +28,7 @@ export default function ProductLists(props) {
 
         // });
         setProducts(myJson);
+        console.log(myJson);
       })
       .catch(reason => {
         console.error(reason.message);
