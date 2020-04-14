@@ -21,9 +21,15 @@ export default class ProductLists extends React.Component {
         return response.json();
       })
       .then(myJson => {
+        const imgArr = [];
+        myJson.map(product => {
+          imgArr.push(product.image);
+        });
+        this.setState(previousState => ({ pictures: imgArr })
+        );
+
         this.setState({
           products: myJson
-
         });
       })
       .catch(reason => {
@@ -36,13 +42,20 @@ export default class ProductLists extends React.Component {
     const cards = this.state.products.map(product => {
       return <ProductListItems name={product.name} cost={(product.price / 100).toFixed(2)} description={product.shortDescription} onClick={this.props.setView} img={product.image} id={product.productId} key={product.productId}/>;
     });
+
     return cards;
+  }
+
+  renderImgs() {
+    return <Carousel img={this.state.pictures}/>;
   }
 
   render() {
     const elements = this.renderCards();
+    const images = this.renderImgs();
     return (
       <main className="d-flex flex-wrap  justify-content-center mt-3">
+        {images}
         {elements}
       </main>
     );
