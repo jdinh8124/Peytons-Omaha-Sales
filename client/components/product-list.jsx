@@ -24,6 +24,7 @@ export default class ProductLists extends React.Component {
         const imgArr = [];
         myJson.map(product => {
           imgArr.push(product.image);
+          console.log(product.image);
         });
         this.setState(previousState => ({ pictures: imgArr })
         );
