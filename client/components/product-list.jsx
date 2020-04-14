@@ -1,10 +1,13 @@
 import React from 'react';
 import ProductListItems from './product-list-item';
+import Carousel from './carousel';
+
 export default class ProductLists extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      pictures: []
     };
   }
 
