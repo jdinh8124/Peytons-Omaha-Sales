@@ -29,6 +29,7 @@ A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 ## Planned Additions
 - Users can view current deals with a React carousel
 - Users can view more jerseys for sale
+- Users can view customer satisfaction 
 
 
 ## Takeaways
