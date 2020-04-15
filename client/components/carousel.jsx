@@ -10,7 +10,7 @@ export default class Carousel extends React.Component {
   }
 
   picToArray() {
-    return this.arrayOfPics[this.state.numberIndex];
+    return this.props.img[this.state.numberIndex];
   }
 
   arrowClickLeft() {
