@@ -69,12 +69,14 @@ export default class CartSummaryItem extends React.Component {
               <h5 className="card-title ">{this.props.name}</h5>
               <h6 className="card-subtitle mb-lg-2 text-muted ">${(this.props.price / 100).toFixed(2)}</h6>
               <p className="card-text">{this.props.shortDescription}</p>
-              <div className="offset-3 offset-sm-5 offset-md-4 offset-lg-0">
+              <div className="row no-gutters  justify-content-center justify-content-lg-start mr-3">
                 <button onClick={this.deleteItems} className="m-1"><i className="fas fa-minus-square"></i></button>
-                {this.props.quantity}
+                <span className="pt-2">{this.props.quantity}</span>
                 <button onClick={this.addItems}className="m-1"><i className="fas fa-plus-square"></i></button>
               </div>
-              <button type="button" onClick={this.deleteAllItems} className="btn btn-danger offset-3 offset-sm-5 offset-md-4 offset-lg-0  mt-3 ">Delete</button>
+              <div className="row no-gutters  justify-content-center justify-content-lg-start mr-3">
+                <button type="button" onClick={this.deleteAllItems} className="btn btn-danger mt-3 ">Delete</button>
+              </div>
             </div>
           </div>
         </div>
