@@ -18,6 +18,8 @@ A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 - Express
 - Webpack
 - Babel
+- AWS EC2
+
 
 ## Features
 - Users can see a list of autographed jerseys listed for sale
