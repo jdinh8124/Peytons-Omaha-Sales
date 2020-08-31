@@ -19,6 +19,7 @@ A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 - Webpack
 - Babel
 - AWS EC2
+- Bootstrap 4
 
 
 ## Features
