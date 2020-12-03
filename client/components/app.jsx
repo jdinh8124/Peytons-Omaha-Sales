@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './header';
 import ProductList from './product-list';
 import ProductDetails from './product-details';
@@ -7,62 +7,46 @@ import CheckoutForm from './checkoutform';
 import IntroModal from './intromodal';
 import Confirmation from './confirmation';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      view: {
-        name: 'catalog',
-        params: {}
-      },
-      cart: [],
-      previousCart: [],
-      showModal: true
-    };
-    this.setView = this.setView.bind(this);
-    this.setViewFromConfirm = this.setViewFromConfirm.bind(this);
-    this.addToCart = this.addToCart.bind(this);
-    this.placeOrder = this.placeOrder.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
-    this.closeIntroModal = this.closeIntroModal.bind(this);
-    this.deleteAllItems = this.deleteAllItems.bind(this);
-  }
+export default function App() {
+  const [view, setViewState] = React.useState({ name: 'catalog', params: {} });
+  const [cart, setCart] = React.useState([]);
+  const [previousCart, setPreviousCart] = React.useState([]);
+  const [showModal, setShowModal] = React.useState(true);
 
-  componentDidMount() {
-    fetch('/api/health-check');
-    this.getCartItems();
-  }
-
-  showIntroModal() {
-    if (this.state.showModal) {
-      return <IntroModal onClick={this.closeIntroModal}/>;
+  const isFirstUpdate = React.useRef(true);
+  useEffect(() => {
+    if (isFirstUpdate.current) {
+      isFirstUpdate.current = false;
+      getCartItems();
     }
-  }
+  });
 
-  closeIntroModal() {
+  const showIntroModal = () => {
+    if (showModal) {
+      return <IntroModal onClick={closeIntroModal}/>;
+    }
+  };
+
+  const closeIntroModal = event => {
     event.preventDefault();
-    this.setState(previousState => ({ showModal: false })
-    );
-  }
+    setShowModal(false);
+  };
 
-  getCartItems() {
+  const getCartItems = () => {
     fetch('/api/cart')
       .then(result => {
         return result.json();
       })
       .then(myJson => {
-        this.setState(previousState => ({
-          cart: myJson
-        }));
-        this.setState(previousState => ({ view: { name: 'catalog', params: {} } }
-        ));
+        setCart(myJson);
+        setViewState({ name: 'catalog', params: {} });
       })
       .catch(reason => {
         console.error(reason.message);
       });
-  }
+  };
 
-  addToCart(product) {
+  const addToCart = product => {
     fetch('/api/cart', {
       method: 'POST',
       headers: {
@@ -74,7 +58,7 @@ export default class App extends React.Component {
         return response.json();
       }).then(myJson => {
         let found = false;
-        const newArray = [...this.state.cart];
+        const newArray = [...cart];
         newArray.map(item => {
           if (item.productId === myJson.productId) {
             found = true;
@@ -87,43 +71,36 @@ export default class App extends React.Component {
               item.ids.push(myJson.cartItemId);
             }
           });
-          this.setState(previousState => ({
-            cart: newArray
-          }));
+          setCart(newArray);
         } else {
           myJson.quantity = 1;
           myJson.ids = [myJson.cartItemId];
           newArray.push(myJson);
-          this.setState(previousState => ({
-            cart: newArray
-          }));
+          setCart(newArray);
+
         }
       })
       .catch(reason => {
         console.error(reason.message);
       });
-  }
+  };
 
-  setView(name, params) {
-    this.setState(previousState => ({
-      view: {
-        name: name,
-        params: params
-      }
-    }));
-  }
+  const setView = (name, params) => {
+    setViewState({
+      name: name,
+      params: params
+    });
+  };
 
-  setViewFromConfirm(name, params) {
-    this.setState(previousState => ({
-      view: {
-        name: name,
-        params: params
-      },
-      previousCart: []
-    }));
-  }
+  const setViewFromConfirm = (name, params) => {
+    setViewState({
+      name: name,
+      params: params
+    });
+    setPreviousCart([]);
+  };
 
-  placeOrder(object) {
+  const placeOrder = object => {
     fetch('/api/orders', {
       method: 'POST',
       headers: {
@@ -135,25 +112,20 @@ export default class App extends React.Component {
         return response.json();
       })
       .then(myJson => {
-        this.setState(previousState => ({
-          view: {
-            name: 'confirmation',
-            params: {}
-          }
-        }
-        ));
-        const oldOrder = [...this.state.cart];
-        this.setState(previousState => ({
-          cart: [],
-          previousCart: oldOrder
-        }));
+        setViewState({
+          name: 'confirmation',
+          params: {}
+        });
+        const oldOrder = [...cart];
+        setPreviousCart(oldOrder);
+        setCart([]);
       })
       .catch(reason => {
         console.error(reason.message);
       });
-  }
+  };
 
-  deleteAllItems(products) {
+  const deleteAllItems = products => {
     products.ids.map(ids =>
 
       fetch('/api/cart', {
@@ -166,16 +138,14 @@ export default class App extends React.Component {
 
     );
 
-    const newArray = [...this.state.cart];
+    const newArray = [...cart];
     const indexMatch = newArray.findIndex(items =>
       items.productId === products.productId);
     newArray.splice(indexMatch, 1);
-    this.setState(previousState => ({
-      cart: newArray
-    }));
-  }
+    setCart(newArray);
+  };
 
-  deleteItem(product) {
+  const deleteItem = product => {
     fetch('/api/cart', {
       method: 'DELETE',
       headers: {
@@ -184,61 +154,56 @@ export default class App extends React.Component {
       body: JSON.stringify({ cartItemId: product })
     })
       .then(myJson => {
-        const newArray = [...this.state.cart];
+        const newArray = [...cart];
         const indexMatch = newArray.findIndex(items =>
           items.ids[0] === product);
 
         if (newArray[indexMatch].quantity === 1) {
           newArray.splice(indexMatch, 1);
-          this.setState(previousState => ({
-            cart: newArray
-          }));
+          setCart(newArray);
         } else {
           newArray[indexMatch].quantity -= 1;
           newArray[indexMatch].ids.shift();
           newArray[indexMatch].cartItemId = newArray[indexMatch].ids[0];
-          this.setState(previousState => ({
-            cart: newArray
-          }));
+          setCart(newArray);
         }
       })
       .catch(reason => {
         console.error(reason.message);
       });
-  }
+  };
 
-  cartItemsCount() {
+  const cartItemsCount = () => {
     let quantityGroup = 0;
-    this.state.cart.map(items => {
+    cart.map(items => {
       quantityGroup += items.quantity
       ;
     });
     return quantityGroup;
-  }
+  };
 
-  bodyToRender() {
-    let view;
-    if (this.state.view.name === 'catalog') {
-      view = <ProductList setView={this.setView} />;
-    } else if (this.state.view.name === 'cart') {
-      view = <CartSummary setView={this.setView} items={this.state.cart} add={this.addToCart} delete={this.deleteItem} deleteAll={this.deleteAllItems} />;
-    } else if (this.state.view.name === 'checkout') {
-      view = <CheckoutForm placeOrder={this.placeOrder} items={this.state.cart} setView={this.setView} />;
-    } else if (this.state.view.name === 'confirmation') {
-      view = <Confirmation setView={this.setViewFromConfirm} items={this.state.previousCart} />;
+  const bodyToRender = () => {
+    let viewToRender;
+    if (view.name === 'catalog') {
+      viewToRender = <ProductList setView={setView} />;
+    } else if (view.name === 'cart') {
+      viewToRender = <CartSummary setView={setView} items={cart} add={addToCart} delete={deleteItem} deleteAll={deleteAllItems} />;
+    } else if (view.name === 'checkout') {
+      viewToRender = <CheckoutForm placeOrder={placeOrder} items={cart} setView={setView} />;
+    } else if (view.name === 'confirmation') {
+      viewToRender = <Confirmation setView={setViewFromConfirm} items={previousCart} />;
     } else {
-      view = <ProductDetails setView={this.setView} view={this.state.view.params} button={this.addToCart}/>;
+      viewToRender = <ProductDetails setView={setView} view={view.params} button={addToCart}/>;
     }
-    return view;
-  }
+    return viewToRender;
+  };
 
-  render() {
-    return (
-      <div>
-        {this.showIntroModal()}
-        <Header name="Peyton's Omaha Sales" cart={this.cartItemsCount()} onClick={this.setView}/>
-        {this.bodyToRender()}
-      </div>
-    );
-  }
+  return (
+    <div>
+      {showIntroModal()}
+      <Header name="Peyton's Omaha Sales" cart={cartItemsCount()} onClick={setView}/>
+      {bodyToRender()}
+    </div>
+  );
+
 }
