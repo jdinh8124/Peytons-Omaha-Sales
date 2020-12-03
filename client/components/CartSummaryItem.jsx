@@ -2,19 +2,7 @@ import React from 'react';
 import DeleteModal from './deleteConfirmationModal';
 
 export default function CartSummaryItem(props) {
-
-  // constructor(props) {
-  //   super(props);
-  //   state = {
-  //     showModal: false
-  //   };
-  //   deleteItems = deleteItems.bind(this);
-  //   deleteAllItems = deleteAllItems.bind(this);
-  //   addItems = addItems.bind(this);
-  //   setModal = setModal.bind(this);
-  // }
-
-  const [showModal, setShowModal] = React.useState(true);
+  const [showModal, setShowModal] = React.useState(false);
 
   const pictureSize = () => {
     if (props.img === '/images/sharpe.jpg') {
@@ -34,7 +22,7 @@ export default function CartSummaryItem(props) {
     }
   };
 
-  const deleteItems = event => {
+  const deleteItems = () => {
     if (props.quantity !== 1) {
       props.delete(props.ids[0]);
     } else {
@@ -42,7 +30,7 @@ export default function CartSummaryItem(props) {
     }
   };
 
-  const deleteAllItems = event => {
+  const deleteAllItems = () => {
     const products = {
       productId: props.productId,
       ids: props.ids
