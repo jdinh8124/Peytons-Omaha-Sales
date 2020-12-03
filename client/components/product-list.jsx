@@ -1,47 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductListItems from './product-list-item';
-export default class ProductLists extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: []
-    };
-  }
+export default function ProductLists(props) {
+  const [products, setProducts] = React.useState([]);
 
-  componentDidMount() {
-    this.getProducts();
-  }
+  const isFirstUpdate = React.useRef(true);
+  useEffect(() => {
+    if (isFirstUpdate.current) {
+      isFirstUpdate.current = false;
+      getProducts();
+    }
+  });
 
-  getProducts() {
+  const getProducts = () => {
     fetch('/api/products')
       .then(response => {
         return response.json();
       })
       .then(myJson => {
-        this.setState({
-          products: myJson
-
-        });
+        setProducts(myJson);
       })
       .catch(reason => {
         console.error(reason.message);
       });
 
-  }
+  };
 
-  renderCards() {
-    const cards = this.state.products.map(product => {
-      return <ProductListItems name={product.name} cost={(product.price / 100).toFixed(2)} description={product.shortDescription} onClick={this.props.setView} img={product.image} id={product.productId} key={product.productId}/>;
+  const renderCards = () => {
+    const cards = products.map(product => {
+      return <ProductListItems name={product.name} cost={(product.price / 100).toFixed(2)} description={product.shortDescription} onClick={props.setView} img={product.image} id={product.productId} key={product.productId}/>;
     });
     return cards;
-  }
+  };
 
-  render() {
-    const elements = this.renderCards();
-    return (
-      <main className="d-flex flex-wrap  justify-content-center mt-3">
-        {elements}
-      </main>
-    );
-  }
+  const elements = renderCards();
+  return (
+    <main className="d-flex flex-wrap  justify-content-center mt-3">
+      {elements}
+    </main>
+  );
 }
