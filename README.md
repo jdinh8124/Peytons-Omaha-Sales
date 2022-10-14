@@ -2,9 +2,6 @@
 
 > - Maintained by: `James Dinh - jdinh8124`
 
-## Live
-[Link To Live Site](https://peytons-omaha-sales.jamestdinh.com/)
-
 ## Summary
 A full stack Node.js and React shopping cart app that stores data in PostgreSQL.
 
